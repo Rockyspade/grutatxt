@@ -185,7 +185,7 @@ sub usage
 	print "    -m|--mode=[HTML|troff]     Selects output mode, HTML or troff\n";
 	print "                               (default: HTML)\n";
 	print "HTML options:\n\n";
-	print "    -c|--css=CSS_URL_OR_FILE   CSS URL (or file in --embed-css)\n";
+	print "    -c|--css=CSS_URL_OR_FILE   CSS URL (or file if using --embed-css)\n";
 	print "    -e|--embed-css             Embed CSS instead of linking to it\n";
 	print "    -f|--header-offset=NUMBER  Offset to add to <h1>,\n";
 	print "                               <h2>... headers (default 0)\n";
