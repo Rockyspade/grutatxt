@@ -1515,7 +1515,8 @@ sub new
 
 	$gh->{'-process-urls'} = 0;
 
-	$gh->{'-paper-size'} = "a4paper";
+	$gh->{'-docclass'} = "report";
+	$gh->{'-papersize'} = "a4paper";
 	$gh->{'-encoding'} = "latin1";
 
 	return($gh);
@@ -1526,7 +1527,7 @@ sub _prefix
 {
 	my ($gh) = @_;
 
-	$gh->_push("\\documentclass[$gh->{'-paper-size'}]{report}");
+	$gh->_push("\\documentclass[$gh->{'-papersize'}]{$gh->{-docclass}}");
 	$gh->_push("\\usepackage[$gh->{'-encoding'}]{inputenc}");
 
 	$gh->_push("\\begin{document}");
@@ -1627,7 +1628,7 @@ sub _new_mode
 		"pre"		=>	"verbatim",
 		"blockquote"	=>	"quote",
 		"table"		=>	"tabular",
-		"dl"		=>	"itemize",
+		"dl"		=>	"description",
 		"ul"		=>	"itemize",
 		"ol"		=>	"enumerate"
 	);
@@ -1670,7 +1671,7 @@ sub _dl
 	my ($gh,$str) = @_;
 
 	$gh->_new_mode("dl");
-	return("\\item $str\n");
+	return("\\item[$str]\n");
 }
 
 
