@@ -29,7 +29,7 @@ use Getopt::Long;
 use locale;
 use Grutatxt;
 
-$VERSION = $Grutatxt::VERSION . ":0";
+$VERSION = $Grutatxt::VERSION . ":1";
 
 # input file
 $input_file = "-";
@@ -130,10 +130,10 @@ unless($no_body)
 		{
 			if(open C, $css)
 			{
-				my ($c) = join('', C);
+				my ($c) = join('', <C>);
 				close C;
 
-				print O "<style type='text/css'>";
+				print O "<style type='text/css'>\n";
 				print O $c . "\n";
 				print O "</style>\n";
 			}
@@ -148,7 +148,7 @@ unless($no_body)
 		}
 	}
 
-	print O "<body>\n";
+	print O "</head><body>\n";
 }
 
 foreach my $l (@result)
