@@ -72,7 +72,7 @@ marked as italic. Bold can also be marked up surrounding the text with three
 apostrophes ('''this way''') and italics with two (''this way''). If you ever
 used a WikiWikiWeb system you'll be familiar with these ones.
 
-Other special text is automatically recognized, as URLs (so the URL
+Other special text is automatically recognized, as URLs (so that the URL
 http://www.triptico.com should be clickable). Text beginning with ./ is
 interpreted as relative URLs, so ./index.html should also be clickable.
 

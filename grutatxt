@@ -80,6 +80,9 @@ if(!GetOptions( "i|input=s"		=>	\$input_file,
 		"h|help"		=>	\$usage,
 		"m|mode=s"		=>	\$mode,
 		"s|man-section=s"	=>	\$man_section,
+		"docclass=s"		=>	\$latex_docclass,
+		"papersize=s"		=>	\$papersize,
+		"encoding=s"		=>	\$encoding,
 		"dl"			=>	\$dl_as_dl)
 	      or $usage)
 {
@@ -112,7 +115,10 @@ $grutatxt = new Grutatxt(
 		"title" 	=> \$content_title,
 		"abstract"	=> \$abstract,
 		"page-name"	=> $title,
-		"section"	=> $man_section
+		"section"	=> $man_section,
+		"docclass"	=> $latex_docclass,
+		"papersize"	=> $papersize,
+		"encoding"	=> $encoding
 		);
 
 @result = $grutatxt->process($content);
@@ -208,7 +214,11 @@ sub usage
 	print "    --table-type=TYPE          Table type. Possible values:\n";
 	print "                               box, allbox, doublebox (default allbox)\n";
 	print "man options:\n\n";
-	print "    -s|--man-section=section   Man page section (default: 1)\n";
+	print "    -s|--man-section=SECTION   Man page section (default: 1)\n\n";
+	print "latex options:\n\n";
+	print "    --docclass=CLASS           Document class (default: report)\n";
+	print "    --papersize=SIZE           Paper size (default: a4paper)\n";
+	print "    --encoding=ENCODING        Character encoding (default: latin1)\n";
 
 	exit(0);
 }

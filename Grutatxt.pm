@@ -1500,6 +1500,25 @@ package Grutatxt::latex;
 
 =head2 latex Driver
 
+The additional parameters for a new Grutatxt object are:
+
+=over 4
+
+=item I<docclass>
+
+The latex document class. By default is 'report'. You can also use
+'article' or 'book' (consult your latex documentation for details).
+
+=item I<papersize>
+
+The paper size to be used in the document. By default is 'a4paper'.
+
+=item I<encoding>
+
+The character encoding used in the document. By default is 'latin1'.
+
+=back
+
 Note that you can't nest further than 4 levels in latex; if you do,
 latex will choke in the generated code with a 'Too deeply nested' error.
 
@@ -1515,9 +1534,9 @@ sub new
 
 	$gh->{'-process-urls'} = 0;
 
-	$gh->{'-docclass'} = "report";
-	$gh->{'-papersize'} = "a4paper";
-	$gh->{'-encoding'} = "latin1";
+	$gh->{'-docclass'} ||= "report";
+	$gh->{'-papersize'} ||= "a4paper";
+	$gh->{'-encoding'} ||= "latin1";
 
 	return($gh);
 }
@@ -1575,6 +1594,7 @@ sub _escape_post
 	my ($gh, $l) = @_;
 
 	$l =~ s/ # / \\# /g;
+	$l =~ s/^\\n$//g;
 
 	return($l);
 }
@@ -1584,7 +1604,7 @@ sub _empty_line
 {
 	my ($gh) = @_;
 
-	return("");
+	return("\\n");
 }
 
 
@@ -1736,7 +1756,7 @@ sub _hr
 {
 	my ($gh) = @_;
 
-	return("--");
+	return("------------\n");
 }
 
 
