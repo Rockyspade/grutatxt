@@ -53,11 +53,14 @@ $mode = "HTML";
 # use real dl
 $dl_as_dl = 0;
 
-# table type
+# troff table type
 $table_type = "allbox";
 
 # abstract line number
 $abstract = 0;
+
+# man page section
+$man_section = 1;
 
 #####################################################################
 
@@ -76,6 +79,7 @@ if(!GetOptions( "i|input=s"		=>	\$input_file,
 		"v|version"		=>	\$version,
 		"h|help"		=>	\$usage,
 		"m|mode=s"		=>	\$mode,
+		"s|man-section=s"	=>	\$man_section,
 		"dl"			=>	\$dl_as_dl)
 	      or $usage)
 {
@@ -106,7 +110,9 @@ $grutatxt = new Grutatxt(
 		"dl-as-dl"	=> $dl_as_dl,
 		"table-type"	=> $table_type,
 		"title" 	=> \$content_title,
-		"abstract"	=> \$abstract
+		"abstract"	=> \$abstract,
+		"page-name"	=> $title,
+		"section"	=> $man_section
 		);
 
 @result = $grutatxt->process($content);
@@ -182,7 +188,7 @@ sub usage
 	print "                               names (shown monospaced anyway)\n";
 	print "    -sd|--strip-dollars        Strip leading \$ in variable\n";
 	print "                               names (shown monospaced anyway)\n";
-	print "    -m|--mode=[HTML|troff]     Selects output mode, HTML or troff\n";
+	print "    -m|--mode=[HTML|troff|man] Selects output mode, HTML, troff or man\n";
 	print "                               (default: HTML)\n";
 	print "HTML options:\n\n";
 	print "    -c|--css=CSS_URL_OR_FILE   CSS URL (or file if using --embed-css)\n";
@@ -200,6 +206,8 @@ sub usage
 	print "troff options:\n\n";
 	print "    --table-type=TYPE          Table type. Possible values:\n";
 	print "                               box, allbox, doublebox (default allbox)\n";
+	print "man options:\n\n";
+	print "    -s|--man-section=section   Man page section (default: 1)\n";
 
 	exit(0);
 }

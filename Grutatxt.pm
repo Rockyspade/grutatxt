@@ -1215,6 +1215,28 @@ package Grutatxt::man;
 
 @ISA = ("Grutatxt::troff", "Grutatxt");
 
+=head2 man Driver
+
+The man driver is used to generate Unix-like man pages.
+
+The additional parameters for a new Grutatxt object are:
+
+=over 4
+
+=item I<section>
+
+The man page section (see man documentation). By default is 1.
+
+=item I<page-name>
+
+The name of the page. This is usually the name of the program
+or function the man page is documenting and will be shown in the
+page header. By default is the empty string.
+
+=back
+
+=cut
+
 sub new
 {
 	my ($class,%args) = @_;
