@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION='2.0.2';
+$VERSION='2.0.3m';
 
 =pod
 
@@ -290,6 +290,11 @@ sub process
 		{
 		}
 
+		# quoted block
+		elsif($l =~ s/^\s\"/$gh->_blockquote()/e)
+		{
+		}
+
 		# table rows
 		elsif($l =~ s/^\s*\|(.*)\|\s*$/$gh->_table_row($1)/e)
 		{
@@ -479,6 +484,7 @@ sub _new_mode { my ($gh,$mode)=@; }
 sub _dl { my ($gh,$str)=@_; $str; }
 sub _ul { my ($gh,$str)=@_; $str; }
 sub _ol { my ($gh,$str)=@_; $str; }
+sub _blockquote { my ($gh,$str)=@_; $str; }
 sub _hr { my ($gh)=@_; "" }
 sub _heading { my ($gh,$level,$l)=@_; $l; }
 sub _table { my ($gh,$str)=@_; $str; }
@@ -688,6 +694,15 @@ sub _ol
 
 	$gh->_new_mode("ol");
 	return("<li>");
+}
+
+
+sub _blockquote
+{
+	my ($gh)=@_;
+
+	$gh->_new_mode("blockquote");
+	return("\"");
 }
 
 
@@ -933,11 +948,19 @@ sub _new_mode
 			$gh->_push($gh->{'-table-head'}.".");
 			$gh->_push($gh->{'-table-body'}.".TE\n.sp 0.6");
 		}
+		elsif($gh->{'-mode'} eq "blockquote")
+		{
+			$gh->_push(".)q");
+		}
 
 		# send new one
 		if($mode eq "pre")
 		{
 			$gh->_push(".(l L");
+		}
+		elsif($mode eq "blockquote")
+		{
+			$gh->_push(".(q");
 		}
 
 		$gh->{'-mode'}=$mode;
@@ -969,6 +992,15 @@ sub _ol
 
 	$gh->_new_mode("ol");
 	return(".np\n");
+}
+
+
+sub _blockquote
+{
+	my ($gh)=@_;
+
+	$gh->_new_mode("blockquote");
+	return("\"");
 }
 
 
