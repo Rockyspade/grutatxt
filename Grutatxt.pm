@@ -24,7 +24,7 @@
 
 package Grutatxt;
 
-$VERSION='2.0.0';
+$VERSION='2.0.1';
 
 =pod
 
@@ -189,6 +189,8 @@ sub process
 
 	# insert prefix
 	$gh->_prefix();
+
+	$gh->{'-mode'}=undef;
 
 	foreach my $l (split(/\n/,$content))
 	{
@@ -445,7 +447,7 @@ sub _pre
 	my ($gh,$l)=@_;
 
 	# if any other mode is active, add to it
-	if($gh->{'mode'} and $gh->{'mode'} ne "pre")
+	if($gh->{'-mode'} and $gh->{'-mode'} ne "pre")
 	{
 		$l =~ s/^\s+//;
 
@@ -635,19 +637,19 @@ sub _new_mode
 {
 	my ($gh,$mode,$params)=@_;
 
-	if($mode ne $gh->{'mode'})
+	if($mode ne $gh->{'-mode'})
 	{
 		my $tag;
 
 		# flush previous list
-		$gh->_push("</$gh->{'mode'}>")
-			if $gh->{'mode'};
+		$gh->_push("</$gh->{'-mode'}>")
+			if $gh->{'-mode'};
 
 		# send new one
 		$tag=$params ? "<$mode $params>" : "<$mode>";
 		$gh->_push($tag) if $mode;
 
-		$gh->{'mode'}=$mode;
+		$gh->{'-mode'}=$mode;
 	}
 }
 
@@ -664,7 +666,7 @@ sub _dl
 	else
 	{
 		$gh->_new_mode("table");
-		return("<tr><td valign=top><strong class=term>$1</strong class=strong>&nbsp;&nbsp;</td><td valign=top>");
+		return("<tr><td valign=top><strong class=term>$1</strong>&nbsp;&nbsp;</td><td valign=top>");
 	}
 }
 
@@ -714,7 +716,7 @@ sub _table
 {
 	my ($gh,$str)=@_;
 
-	if($gh->{'mode'} eq "table")
+	if($gh->{'-mode'} eq "table")
 	{
 		my ($class)="";
 		my (@spans)=$gh->_calc_col_span($str);
@@ -913,16 +915,16 @@ sub _new_mode
 {
 	my ($gh,$mode,$params)=@_;
 
-	if($mode ne $gh->{'mode'})
+	if($mode ne $gh->{'-mode'})
 	{
 		my $tag;
 
 		# flush previous list
-		if($gh->{'mode'} eq "pre")
+		if($gh->{'-mode'} eq "pre")
 		{
 			$gh->_push(".)l");
 		}
-		elsif($gh->{'mode'} eq "table")
+		elsif($gh->{'-mode'} eq "table")
 		{
 			chomp($gh->{'-table-head'});
 			$gh->{'-table-head'} =~ s/\s+$//;
@@ -936,7 +938,7 @@ sub _new_mode
 			$gh->_push(".(l L");
 		}
 
-		$gh->{'mode'}=$mode;
+		$gh->{'-mode'}=$mode;
 	}
 }
 
@@ -990,7 +992,7 @@ sub _table
 {
 	my ($gh,$str)=@_;
 
-	if($gh->{'mode'} eq "table")
+	if($gh->{'-mode'} eq "table")
 	{
 		my ($h,$b);
 		my (@spans)=$gh->_calc_col_span($str);
