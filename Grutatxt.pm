@@ -159,6 +159,33 @@ sub new
 }
 
 
+sub escape
+# escapes special characters, ignoring passthrough code
+{
+	my ($gh, $l) = @_;
+
+	# splits between << and >>
+	my (@l) = split(/(<<|>>)/, $l);
+
+	@l = map {
+			my $l = $_;
+
+			# escape only text outside << and >>
+			unless($l eq "<<" .. $l eq ">>")
+			{
+				$l = $gh->_escape($l);
+			}
+
+			$_ = $l;
+		} @l;
+
+	# join again, stripping << and >>
+	$l = join('', grep(!/^(<<|>>)$/, @l));
+
+	return($l);
+}
+
+
 =head2 B<process>
 
  @output=$grutatxt->process($text);
@@ -213,7 +240,7 @@ sub process
 		}
 
 		# escape possibly dangerous characters
-		$l = $gh->_escape($l);
+		$l = $gh->escape($l);
 
 		# empty lines
 		$l =~ s/^\r$//ge;
@@ -666,7 +693,7 @@ sub _inline
 
 sub _escape
 {
-	my ($gh,$l) = @_;
+	my ($gh, $l) = @_;
 
 	$l =~ s/&/&amp;/g;
 	$l =~ s/</&lt;/g;
