@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.9-cvs';
+$VERSION = '2.0.9';
 
 =pod
 
@@ -835,7 +835,7 @@ sub _heading
 	# creates a valid anchor
 	my ($a) = lc($l);
 
-	$a =~ s/[\"|']//g;
+	$a =~ s/[\"\']//g;
 	$a =~ s/\s/_/g;
 	$a =~ s/<[^>]+>//g;
 
