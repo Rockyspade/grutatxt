@@ -698,7 +698,7 @@ sub _empty_line
 {
 	my ($gh) = @_;
 
-	return("<p />");
+	return("<p>");
 }
 
 
@@ -868,7 +868,7 @@ sub _heading
 	# creates a valid anchor
 	my ($a) = lc($l);
 
-	$a =~ s/[\"\']//g;
+	$a =~ s/[\"\'\/]//g;
 	$a =~ s/\s/_/g;
 	$a =~ s/<[^>]+>//g;
 
