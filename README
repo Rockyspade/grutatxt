@@ -12,8 +12,8 @@ Intro
 
 Grutatxt is a plain text to HTML (and now other formats) converter. It
 succesfully converts subtle text markup to lists, bold, italics, tables
-and headings to their corresponding HTML tags or troff commands without
-having to write unreadable source text files.
+and headings to their corresponding HTML, troff, man page or LaTeX markup
+without having to write unreadable source text files.
 
 To install Grutatxt, do it just like you would do to any Perl module, so
 
@@ -37,6 +37,9 @@ look after being converted by Grutatxt, you can just do
 or
 
 	$ grutatxt --mode=troff < README | groff -t -me -Tps > README.ps
+
+or
+	$ grutatxt --mode=latex < README > README.latex
 
 and see its effects.
 

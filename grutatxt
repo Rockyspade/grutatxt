@@ -215,7 +215,7 @@ sub usage
 	print "                               box, allbox, doublebox (default allbox)\n";
 	print "man options:\n\n";
 	print "    -s|--man-section=SECTION   Man page section (default: 1)\n\n";
-	print "latex options:\n\n";
+	print "LaTeX options:\n\n";
 	print "    --docclass=CLASS           Document class (default: report)\n";
 	print "    --papersize=SIZE           Paper size (default: a4paper)\n";
 	print "    --encoding=ENCODING        Character encoding (default: latin1)\n";
