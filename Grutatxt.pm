@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.9';
+$VERSION = '2.0.10-cvs';
 
 =pod
 
@@ -684,28 +684,28 @@ sub _url
 sub _strong
 {
 	my ($gh,$str) = @_;
-	return("<strong class=strong>$str</strong>");
+	return("<strong class='strong'>$str</strong>");
 }
 
 
 sub _em
 {
 	my ($gh,$str) = @_;
-	return("<em class=em>$str</em>");
+	return("<em class='em'>$str</em>");
 }
 
 
 sub _funcname
 {
 	my ($gh,$str) = @_;
-	return("<code class=funcname>$str</code>");
+	return("<code class='funcname'>$str</code>");
 }
 
 
 sub _varname
 {
 	my ($gh,$str) = @_;
-	return("<code class=var>$str</code>");
+	return("<code class='var'>$str</code>");
 }
 
 
@@ -753,12 +753,12 @@ sub _dl
 	if($gh->{'dl-as-dl'})
 	{
 		$gh->_new_mode("dl");
-		return("<dt><strong class=term>$str</strong><dd>");
+		return("<dt><strong class='term'>$str</strong><dd>");
 	}
 	else
 	{
 		$gh->_new_mode("table");
-		return("<tr><td valign=top><strong class=term>$1</strong>&nbsp;&nbsp;</td><td valign=top>");
+		return("<tr><td valign=top><strong class='term'>$1</strong>&nbsp;&nbsp;</td><td valign=top>");
 	}
 }
 
@@ -839,7 +839,7 @@ sub _heading
 	$a =~ s/\s/_/g;
 	$a =~ s/<[^>]+>//g;
 
-	$l = sprintf("<a name=\"%s\"></a>\n<h%d class=level$level>%s</h%d>",
+	$l = sprintf("<a name=\"%s\"></a>\n<h%d class='level$level'>%s</h%d>",
 		$a, $level+$gh->{'header-offset'},
 		$l, $level+$gh->{'header-offset'});
 
@@ -895,7 +895,7 @@ sub _table
 		$params = "border=1";
 		$params .= " width='100\%'" if $gh->{'expand-tables'};
 		$params .= " align=center" if $gh->{'center-tables'};
-		$params .= " class=oddeven" if $gh->{'class-oddeven'};
+		$params .= " class='oddeven'" if $gh->{'class-oddeven'};
 
 		$gh->_new_mode("table", $params);
 
