@@ -1498,7 +1498,7 @@ package Grutatxt::latex;
 
 @ISA = ("Grutatxt");
 
-=head2 latex Driver
+=head2 LaTeX Driver
 
 The additional parameters for a new Grutatxt object are:
 
@@ -1506,8 +1506,8 @@ The additional parameters for a new Grutatxt object are:
 
 =item I<docclass>
 
-The latex document class. By default is 'report'. You can also use
-'article' or 'book' (consult your latex documentation for details).
+The LaTeX document class. By default is 'report'. You can also use
+'article' or 'book' (consult your LaTeX documentation for details).
 
 =item I<papersize>
 
@@ -1519,8 +1519,8 @@ The character encoding used in the document. By default is 'latin1'.
 
 =back
 
-Note that you can't nest further than 4 levels in latex; if you do,
-latex will choke in the generated code with a 'Too deeply nested' error.
+Note that you can't nest further than 4 levels in LaTeX; if you do,
+LaTeX will choke in the generated code with a 'Too deeply nested' error.
 
 =cut
 
