@@ -2,7 +2,7 @@
 #
 #   Grutatxt - A text to HTML (and other things) converter
 #
-#   Copyright (C) 2000/2004 Angel Ortega <angel@triptico.com>
+#   Copyright (C) 2000/2005 Angel Ortega <angel@triptico.com>
 #
 #   This program is free software; you can redistribute it and/or
 #   modify it under the terms of the GNU General Public License
@@ -1736,7 +1736,7 @@ sub _hr
 {
 	my ($gh) = @_;
 
-	return("\\hline");
+	return("--");
 }
 
 
