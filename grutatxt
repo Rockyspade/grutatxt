@@ -126,7 +126,26 @@ unless($no_body)
 
 	if($css)
 	{
-		print O "<link rel=StyleSheet href='$css' type='text/css'>";
+		if($embed_css)
+		{
+			if(open C, $css)
+			{
+				my ($c) = join('', C);
+				close C;
+
+				print O "<style type='text/css'>";
+				print O $c . "\n";
+				print O "</style>\n";
+			}
+			else
+			{
+				die "Can't open '$css' CSS file.";
+			}
+		}
+		else
+		{
+			print O "<link rel=StyleSheet href='$css' type='text/css'>";
+		}
 	}
 
 	print O "<body>\n";
