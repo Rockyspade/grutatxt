@@ -7,7 +7,8 @@ Release Critical Bugs
 Open Bugs
 ---------
 
-None!
+ * 1008: The latex driver confuses second level headers and horizontal
+   rules. (This is because paragraph separators are empty lines).
 
 Pending Enhancements
 --------------------
@@ -18,7 +19,7 @@ Pending Enhancements
  * 1003: Add a docbook driver.
  * 1004: New markup for footnotes.
  * 1005: Add a xhtml driver.
- * 1006: Add a latex driver.
+ * 1007: Add a latex driver.
 
 Closed
 ------
