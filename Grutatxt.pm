@@ -1643,6 +1643,10 @@ sub _new_mode
 		{
 			$gh->_push("\\end{enumerate}" x scalar(@{$gh->{'-ol-levels'}}));
 		}
+		elsif($gh->{'-mode'} eq "table")
+		{
+			$gh->_push("\\end{tabular}\n");
+		}
 		else
 		{
 			$gh->_push("\\end{" . $latex_modes{$gh->{'-mode'}} . "}")
@@ -1650,7 +1654,7 @@ sub _new_mode
 		}
 
 		# send new one
-		$gh->_push("\\begin{" . $latex_modes{$mode} . "}")
+		$gh->_push("\\begin{" . $latex_modes{$mode} . "}" . $params)
 			if $mode;
 
 		$gh->{'-mode'} = $mode;
@@ -1752,7 +1756,58 @@ sub _table
 {
 	my ($gh,$str) = @_;
 
-	$str = "";
+	if($gh->{'-mode'} eq "table")
+	{
+		my ($class) = "";
+		my (@spans) = $gh->_calc_col_span($str);
+		my (@cols);
+
+		$str = "";
+
+		# build columns
+		for(my $n = 0;$n < scalar(@{$gh->{'-table'}});$n++)
+		{
+			my ($i,$s);
+
+			$i = ${$gh->{'-table'}}[$n];
+			$i = "&nbsp;" if $i =~ /^\s*$/;
+
+#			$s = " colspan='$spans[$n]'" if $spans[$n] > 1;
+
+			# multispan columns
+			$i = "\\multicolumn{$spans[$n]}{|l|}{$i}"
+				if $spans[$n] > 1;
+
+			$i =~ s/\s{2,}/ /g;
+			$i =~ s/^\s+//;
+			$i =~ s/\s+$//;
+
+			push(@cols, $i);
+		}
+
+		$str .= join('&', @cols) . "\\\\\n\\hline";
+
+#		$str .= "\n\\hline" if $gh->{'-tbl-row'} == 1;
+
+		@{$gh->{'-table'}} = ();
+		$gh->{'-tbl-row'}++;
+	}
+	else
+	{
+		# new table
+
+		# count the number of columns
+		$str =~ s/[^\+]//g;
+		my $params = "{" . "|l" x (length($str) - 1) . "|}\n\\hline";
+
+		$gh->_push();
+		$gh->_new_mode("table", $params);
+
+		@{$gh->{'-table'}} = ();
+		$gh->{'-tbl-row'} = 1;
+		$str = "";
+	}
+
 	return($str);
 }
 
