@@ -392,6 +392,9 @@ sub process
 	${$gh->{'abstract'}} = scalar(@{$gh->{'o'}})
 		if ref($gh->{'abstract'}) and not ${$gh->{'abstract'}};
 
+	# travel all lines again, post-escaping
+	@{$gh->{'o'}} = map { $_ = $gh->_escape_post($_); } @{$gh->{'o'}};
+
 	return(@{$gh->{'o'}});
 }
 
@@ -573,6 +576,7 @@ sub _ordered_list
 
 sub _inline { my ($gh,$l) = @_; $l; }
 sub _escape { my ($gh,$l) = @_; $l; }
+sub _escape_post { my ($gh,$l) = @_; $l; }
 sub _empty_line { my ($gh) = @_; ""; }
 sub _url { my ($gh,$url,$label) = @_; ""; }
 sub _strong { my ($gh,$str) = @_; $str; }
@@ -1484,6 +1488,280 @@ sub _table
 
 sub _postfix
 {
+}
+
+
+###########################################################
+# latex Driver
+
+package Grutatxt::latex;
+
+@ISA = ("Grutatxt");
+
+=head2 latex Driver
+
+Note that you can't nest further than 4 levels in latex; if you do,
+latex will choke in the generated code with a 'Too deeply nested' error.
+
+=cut
+
+sub new
+{
+	my ($class,%args) = @_;
+	my ($gh);
+
+	bless(\%args,$class);
+	$gh = \%args;
+
+	$gh->{'-process-urls'} = 0;
+
+	$gh->{'-paper-size'} = "a4paper";
+	$gh->{'-encoding'} = "latin1";
+
+	return($gh);
+}
+
+
+sub _prefix
+{
+	my ($gh) = @_;
+
+	$gh->_push("\\documentclass[$gh->{'-paper-size'}]{report}");
+	$gh->_push("\\usepackage[$gh->{'-encoding'}]{inputenc}");
+
+	$gh->_push("\\begin{document}");
+}
+
+
+sub _inline
+{
+	my ($gh,$l) = @_;
+
+	# accept only latex inlines
+	if($l =~ /^<<\s*latex$/i)
+	{
+		$gh->{'-inline'} = "latex";
+		return;
+	}
+
+	if($l =~ /^>>$/)
+	{
+		delete $gh->{'-inline'};
+		return;
+	}
+
+	if($gh->{'-inline'} eq "troff")
+	{
+		$gh->_push($l);
+	}
+}
+
+
+sub _escape
+{
+	my ($gh, $l) = @_;
+
+	$l =~ s/ _ / \\_ /g;
+	$l =~ s/ ~ / \\~ /g;
+	$l =~ s/ & / \\& /g;
+
+	return($l);
+}
+
+
+sub _escape_post
+{
+	my ($gh, $l) = @_;
+
+	$l =~ s/ # / \\# /g;
+
+	return($l);
+}
+
+
+sub _empty_line
+{
+	my ($gh) = @_;
+
+	return("");
+}
+
+
+sub _strong
+{
+	my ($gh,$str) = @_;
+	return("\\textbf{$str}");
+}
+
+
+sub _em
+{
+	my ($gh,$str) = @_;
+	return("\\emph{$str}");
+}
+
+
+sub _funcname
+{
+	my ($gh,$str) = @_;
+	return("{\\tt $str}");
+}
+
+
+sub _varname
+{
+	my ($gh,$str) = @_;
+
+	$str =~ s/^\$/\\\$/;
+
+	return("{\\tt $str}");
+}
+
+
+sub _new_mode
+{
+	my ($gh,$mode,$params) = @_;
+
+	# mode equivalences
+	my %latex_modes = (
+		"pre"		=>	"verbatim",
+		"blockquote"	=>	"quote",
+		"table"		=>	"tabular",
+		"dl"		=>	"itemize",
+		"ul"		=>	"itemize",
+		"ol"		=>	"enumerate"
+	);
+
+	if($mode ne $gh->{'-mode'})
+	{
+		# close previous mode
+		if($gh->{'-mode'} eq "ul")
+		{
+			$gh->_push("\\end{itemize}" x scalar(@{$gh->{'-ul-levels'}}));
+		}
+		elsif($gh->{'-mode'} eq "ol")
+		{
+			$gh->_push("\\end{enumerate}" x scalar(@{$gh->{'-ol-levels'}}));
+		}
+		else
+		{
+			$gh->_push("\\end{" . $latex_modes{$gh->{'-mode'}} . "}")
+			if $gh->{'-mode'};
+		}
+
+		# send new one
+		$gh->_push("\\begin{" . $latex_modes{$mode} . "}")
+			if $mode;
+
+		$gh->{'-mode'} = $mode;
+
+		$gh->{'-ul-levels'} = undef;
+		$gh->{'-ol-levels'} = undef;
+	}
+}
+
+
+sub _dl
+{
+	my ($gh,$str) = @_;
+
+	$gh->_new_mode("dl");
+	return("\\item $str\n");
+}
+
+
+sub _ul
+{
+	my ($gh, $levels) = @_;
+	my ($ret);
+
+	$ret = '';
+
+	if($levels > 0)
+	{
+		$ret .= "\\begin{itemize}\n";
+	}
+	elsif($levels < 0)
+	{
+		$ret .= "\\end{itemize}\n" x abs($levels);
+	}
+
+	$gh->{'-mode'} = "ul";
+
+	$ret .= "\\item\n";
+
+	return($ret);
+}
+
+
+sub _ol
+{
+	my ($gh, $levels) = @_;
+	my ($ret);
+
+	$ret = '';
+
+	if($levels > 0)
+	{
+		$ret .= "\\begin{enumerate}\n";
+	}
+	elsif($levels < 0)
+	{
+		$ret .= "\\end{enumerate}\n" x abs($levels);
+	}
+
+	$gh->{'-mode'} = "ol";
+
+	$ret .= "\\item\n";
+
+	return($ret);
+}
+
+
+sub _blockquote
+{
+	my ($gh) = @_;
+
+	$gh->_new_mode("blockquote");
+	return("``");
+}
+
+
+sub _hr
+{
+	my ($gh) = @_;
+
+	return("\\hline");
+}
+
+
+sub _heading
+{
+	my ($gh, $level, $l) = @_;
+
+	my @latex_headings = ( "\\section*{", "\\subsection*{",
+		"\\subsubsection*{");
+
+	$l = "\n" . $latex_headings[$level - 1] . $l . "}";
+
+	return($l);
+}
+
+
+sub _table
+{
+	my ($gh,$str) = @_;
+
+	$str = "";
+	return($str);
+}
+
+
+sub _postfix
+{
+	my ($gh) = @_;
+
+	$gh->_push("\\end{document}");
 }
 
 

@@ -188,7 +188,8 @@ sub usage
 	print "                               names (shown monospaced anyway)\n";
 	print "    -sd|--strip-dollars        Strip leading \$ in variable\n";
 	print "                               names (shown monospaced anyway)\n";
-	print "    -m|--mode=[HTML|troff|man] Selects output mode, HTML, troff or man\n";
+	print "    -m|--mode=[HTML|troff|man|latex]\n";
+	print "                               Output mode: HTML, troff, man or latex\n";
 	print "                               (default: HTML)\n";
 	print "HTML options:\n\n";
 	print "    -c|--css=CSS_URL_OR_FILE   CSS URL (or file if using --embed-css)\n";
