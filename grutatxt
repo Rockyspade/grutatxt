@@ -29,34 +29,34 @@ use Getopt::Long;
 use locale;
 use Grutatxt;
 
-$VERSION=$Grutatxt::VERSION;
+$VERSION = $Grutatxt::VERSION;
 
 # input file
-$input_file="-";
+$input_file = "-";
 
 # output file
-$output_file=">-";
+$output_file = ">-";
 
 # Style Sheet
-$css="";
+$css = "";
 
 # page title
-$title="";
+$title = "";
 
 # offset for the h? headers
-$header_offset=0;
+$header_offset = 0;
 
 # default mode
-$mode="HTML";
+$mode = "HTML";
 
 # use real dl
-$dl_as_dl=0;
+$dl_as_dl = 0;
 
 # table type
-$table_type="allbox";
+$table_type = "allbox";
 
 # abstract line number
-$abstract=0;
+$abstract = 0;
 
 #####################################################################
 
@@ -88,12 +88,12 @@ if($version)
 open I, $input_file or die "Can't open $input_file: $!";
 open O, $output_file or die "Can't create $output_file: $!";
 
-$content=join("",<I>);
+$content = join("",<I>);
 close I;
 
-$content_title="";
+$content_title = "";
 
-$grutatxt=new Grutatxt(
+$grutatxt = new Grutatxt(
 		"mode"		=> $mode,
 		"header-offset" => $header_offset,
 		"table-headers" => $table_headers,
@@ -107,10 +107,10 @@ $grutatxt=new Grutatxt(
 		"abstract"	=> \$abstract
 		);
 
-@result=$grutatxt->process($content);
+@result = $grutatxt->process($content);
 
-$title=$content_title unless $title;
-$no_body=1 unless $mode =~ /^html$/i;
+$title = $content_title unless $title;
+$no_body = 1 unless $mode =~ /^html$/i;
 
 unless($no_body)
 {
