@@ -114,15 +114,15 @@ $no_body = 1 unless $mode =~ /^html$/i;
 
 unless($no_body)
 {
-	print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"\n";
-	print " 	\"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
-	print "<html><head>\n";
-	print "<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>\n";
-	print "<title>$title</title>\n";
+	print O "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"\n";
+	print O " 	\"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
+	print O "<html><head>\n";
+	print O "<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>\n";
+	print O "<title>$title</title>\n";
 
-	printf "<!-- converted from text by grutatxt $VERSION on %s -->\n", scalar(localtime);
-	print "<link rel=StyleSheet href='$css' type='text/css'>" if $css;
-	print "<body bgcolor=white text=black>\n";
+	printf O "<!-- converted from text by grutatxt $VERSION on %s -->\n", scalar(localtime);
+	print O "<link rel=StyleSheet href='$css' type='text/css'>" if $css;
+	print O "<body bgcolor=white text=black>\n";
 }
 
 foreach my $l (@result)
@@ -130,7 +130,7 @@ foreach my $l (@result)
 	print O "$l\n";
 }
 
-print "</body></html>\n" unless $no_body;
+print O "</body></html>\n" unless $no_body;
 
 close O;
 
