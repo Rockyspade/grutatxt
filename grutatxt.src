@@ -1,0 +1,145 @@
+#!/usr/bin/perl
+
+#
+# grutatxt - Text to HTML conversor
+# this program is part of the Gruta Hierarchical Notepad CGI
+# http://www.triptico.com/software/gruta.html
+#
+# Copyright (C) 2002	  Angel Ortega <angel@triptico.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#
+# http://www.triptico.com
+#
+
+$VERSION="0.7.6";
+
+use Getopt::Long;
+use locale;
+
+# input file
+$input_file="-";
+
+# output file
+$output_file=">-";
+
+# Style Sheet
+$css="";
+
+# page title
+$title="";
+
+# offset for the h? headers
+$header_offset=0;
+
+
+#####################################################################
+
+@grutatxt.pl@
+
+#####################################################################
+
+# parse options
+if(!GetOptions( "i|input=s"		=>	\$input_file,
+		"o|output=s"		=>	\$output_file,
+		"c|css=s"		=>	\$css,
+		"t|title=s"		=>	\$title,
+		"f|header-offset=s"	=>	\$header_offset,
+		"b|table-headers"	=>	\$table_headers,
+		"ct|center-tables"	=>	\$center_tables,
+		"xt|expand-tables"	=>	\$expand_tables,
+		"sp|strip-parens"	=>	\$strip_parens,
+		"nb|no-body"		=>	\$no_body,
+		"v|version"		=>	\$version,
+		"h|help"		=>	\$usage)
+	      or $usage)
+{
+	usage();
+}
+
+if($version)
+{
+	print "$VERSION\n"; exit(0);
+}
+
+open I, $input_file or die "Can't open $input_file: $!";
+open O, $output_file or die "Can't create $output_file: $!";
+
+$content=join("",<I>);
+close I;
+
+@grutified_content=grutatxt($content,
+		"header-offset" => $header_offset,
+		"table-headers" => $table_headers,
+		"center-tables" => $center_tables,
+		"expand-tables" => $expand_tables,
+		"strip-parens"	=> $strip_parens,
+		"strip-dollars" => $strip_dollars
+		);
+
+$grutatxt_document_name=$title if $title;
+
+unless($no_body)
+{
+	print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"\n";
+	print " 	\"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
+	print "<html><head><title>$grutatxt_document_name</title>\n";
+}
+
+printf "<!-- converted from text by grutatxt $VERSION on %s -->\n", scalar(localtime);
+print "<link rel=StyleSheet href='$css' type='text/css'>" if $css;
+print "<body bgcolor=white text=black>\n";
+
+foreach my $l (@grutified_content)
+{
+	print O "$l\n";
+}
+
+print "</body></html>\n" unless $no_body;
+
+close O;
+
+exit(0);
+
+
+sub usage
+{
+	print "grutatxt $VERSION - Text to HTML conversor\n";
+	print("Copyright (C) 2002 Angel Ortega <angel\@triptico.com>\n\n");
+
+	print "Usage:\n";
+	print "\n";
+	print "grutatxt [options] < input_text_file > output_html_file\n";
+	print "\n";
+	print "    -i|--input=FILE	      Input file (STDIN)\n";
+	print "    -o|--output=FILE	      Output file (STDOUT)\n";
+	print "    -c|--css=CSS_URL	      Cascade Style Sheet URL\n";
+	print "    -t|--title=TITLE	      Title for the HTML output\n";
+	print " 			      (if unset, use level 1 heading)\n";
+	print "    -f|--header-offset=NUMBER Offset to add to <h1>,\n";
+	print " 			      <h2>... headers (default 0)\n";
+	print "    -b|--table-headers	      Use <th> instead of <td> in\n";
+	print " 			      the first row of each table\n";
+	print "    -ct|--center-tables	      Centers the tables\n";
+	print "    -xt|--expand-tables	      Expands the tables (width=100\%)\n";
+	print "    -sp|--strip-parens	      Strip parentheses in function\n";
+	print " 			      names (shown monospaced anyway)\n";
+	print "    -sd|--strip-dollars	      Strip leading \$ in variable\n";
+	print " 			      names (shown monospaced anyway)\n";
+	print "    -nb|-no-body 	      Don't generate <html><body>...\n";
+	print " 			      </body></html> enclosing.\n";
+
+	exit(0);
+}
