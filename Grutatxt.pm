@@ -894,6 +894,8 @@ sub _table
 			}
 		}
 
+		$str .= "</tr>";
+
 		@{$gh->{'-table'}} = ();
 		$gh->{'-tbl-row'}++;
 	}
