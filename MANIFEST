@@ -1,6 +1,7 @@
 COPYING
 AUTHORS
 Changelog
+Changelog.1
 MANIFEST
 Makefile.PL
 Grutatxt.pm
@@ -8,3 +9,4 @@ README
 grutatxt
 grutatxt.1
 TODO
+META.yml                                 Module meta-data (added by MakeMaker)
