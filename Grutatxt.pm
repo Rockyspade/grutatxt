@@ -832,8 +832,12 @@ sub _heading
 {
 	my ($gh,$level,$l) = @_;
 
-	# substitute anchor spaces with underscores
-	my ($a) = lc($l); $a =~ s/\s/_/g;
+	# creates a valid anchor
+	my ($a) = lc($l);
+
+	$a =~ s/[\"|']//g;
+	$a =~ s/\s/_/g;
+	$a =~ s/<[^>]+>//g;
 
 	$l = sprintf("<a name=\"%s\"></a>\n<h%d class=level$level>%s</h%d>",
 		$a, $level+$gh->{'header-offset'},
