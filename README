@@ -17,29 +17,26 @@ having to write unreadable source text files.
 
 To install Grutatxt, do it just like you would do to any Perl module, so
 
-	 $ perl Makefile.PL
-	 $ make
-
-and then, as root
-
-	 # make install
+	$ perl Makefile.PL
+	$ make
+	$ su -c "make install"
 
 This will install the perl module (Grutatxt.pm) as well as the command
 line utility (grutatxt).
 
 Grutatxt includes several command-line arguments; see them using
 
-	 $ grutatxt --help
+	$ grutatxt --help
 
 This README file contains all the marks that Grutatxt is able to
 understand so that it serves also as a demo. So, to see how this file will
 look after being converted by Grutatxt, you can just do
 
-	 $ grutatxt < README > README.html
+	$ grutatxt < README > README.html
 
 or
 
-	 $ grutatxt --mode=troff < README | groff -t -me -Tps > README.ps
+	$ grutatxt --mode=troff < README | groff -t -me -Tps > README.ps
 
 and see its effects.
 
@@ -86,7 +83,7 @@ URLs are simply substituted as shown above; if an URL is followed by a
 phrase surrounded by parentheses (just like you naturally would do to
 explain the contents of a web), this phrase is used as the link text,
 as in this example pointing to
-http://www.triptico.com/software/grutatxt.html (Grutatxt Home Page).
+http://www.triptico.com/software/grutatxt.html (the Grutatxt Home Page).
 
 Lists
 -----
@@ -96,11 +93,16 @@ unnumbered ones (bulleted), numbered ones and definition lists. They are
 recognized as lines starting with a blank (space or tab) immediately
 followed by an special character.
 
- * Unnumbered lists start with a blank, followed by an asterisk, followed
-   by another blank. If the following lines are three-space indented, they
-   are assumed as part of the same list element. The asterisk can also be
-   a - (hyphen).
- * Numbered list are marked up almost the same, just by substuting the
+ * Unnumbered lists start with some blanks, followed by an asterisk,
+   followed by another blank. If the following lines are space indented,
+   they are assumed as part of the same list element. The asterisk can
+   also be a - (hyphen).
+ * Lists can have multiple levels. To add another level,
+   * Just indent a bit deeper,
+     * and have hours of fun
+       * nesting
+         * and nesting.
+ * Numbered lists are marked up almost the same, just by substuting the
    asterisk by a # (sharp) or 1 (number one).
  * Definition lists are marked up almost the same, but delimiting the
    definition term from the definition itself by a colon. These lists are
@@ -113,15 +115,36 @@ List examples
 
 Unnumbered list:
 
- * First element.
+ * First element. Elements at the same level must be indented
+   by the same number of spaces.
  * The second one.
- * The third one.
+   * The second element has one sub-element.
+   * And another...
+      * that, itself, has another one
+ * The third one...
+   * Has another extremely long sub-element to show that long
+     ones are rendered correctly. Please note that the elements
+     of a list cannot be separated by blank lines or they will
+     be interpreted as different lists.
+ * The 4th and final one...
+   * And its final child.
 
-Numbered list:
+Ordered list:
 
  # First element.
  # The second one.
- # The third one.
+   # The second element has one sub-element.
+   # And another...
+      # that, itself, has another one
+ # The third one...
+   # Has another extremely long sub-element to show that long
+     ones are rendered correctly. Please note that the elements
+     of a list cannot be separated by blank lines or they will
+     be interpreted as different lists.
+   # And another sub-element, to show this is not a cut & paste
+     from the unsorted example.
+ # The 4th and final one. Note also that ordered and unsorted
+   lists cannot be combined.
 
 Definition list:
 
@@ -143,9 +166,9 @@ blank in the beginning of all lines. This can be an example:
 
 If you ever wrote any Perl POD documentation, you'll be familiar with this.
 
-If you happen to be using preformatted text that collisions with list
-definitions (i.e. text with lines beginning with blank, asterisk, blank or
-similar), just use more than one blank in the beginning of each line.
+If you write preformatted text and its first line collisions with list
+definitions (i.e. text with lines beginning with blanks and an asterisk or
+sharp) just insert a line containing only spaces before it.
 
 Cites
 -----

@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION='2.0.3';
+$VERSION='2.0.4m';
 
 =pod
 
@@ -271,7 +271,9 @@ sub process
 			$l =~ s/(\$[\w_\.]+)/$gh->_varname($1)/ge;
 		}
 
+		#
 		# main switch
+		#
 
 		# definition list
 		if($l =~ s/^\s\*\s+([\w\s\-]+)\:\s+/$gh->_dl($1)/e)
@@ -279,14 +281,16 @@ sub process
 		}
 
 		# unsorted list
-		elsif($l =~ s/^\s\*\s+/$gh->_ul()/e or
-		      $l =~ s/^\s\-\s+/$gh->_ul()/e)
+		elsif($gh->{'-mode'} ne "pre" and
+		     ($l =~ s/^(\s+)\*\s+/$gh->_unsorted_list($1)/e or
+		      $l =~ s/^(\s+)\-\s+/$gh->_unsorted_list($1)/e))
 		{
 		}
 
 		# sorted list
-		elsif($l =~ s/^\s\#\s+/$gh->_ol()/e or
-		      $l =~ s/^\s1\s+/$gh->_ol()/e)
+		elsif($gh->{'-mode'} ne "pre" and
+		     ($l =~ s/^(\s+)\#\s+/$gh->_ordered_list($1)/e or
+		      $l =~ s/^(\s+)1\s+/$gh->_ordered_list($1)/e))
 		{
 		}
 
@@ -470,6 +474,57 @@ sub _pre
 	return($l);
 }
 
+
+sub _multilevel_list
+{
+	my ($gh, $str, $ind)=@_;
+	my (@l,$level);
+
+	@l = @{$gh->{$str}};
+	$ind = length($ind);
+	$level = 0;
+
+	if($l[-1] < $ind)
+	{
+		# if last level is less indented, increase
+		# nesting level
+		push(@l, $ind);
+		$level++;
+	}
+	elsif($l[-1] > $ind)
+	{
+		# if last level is more indented, decrease
+		# levels until the same is found (or back to
+		# the beginning if not)
+		while(pop(@l))
+		{
+			$level--;
+			last if $l[-1] == $ind;
+		}
+	}
+
+	$gh->{$str} = \@l;
+
+	return($level);
+}
+
+
+sub _unsorted_list
+{
+	my ($gh, $ind)=@_;
+
+	return($gh->_ul($gh->_multilevel_list('-ul-levels', $ind)));
+}
+
+
+sub _ordered_list
+{
+	my ($gh, $ind)=@_;
+
+	return($gh->_ol($gh->_multilevel_list('-ol-levels', $ind)));
+}
+
+
 # empty stubs for falling through the superclass
 
 sub _inline { my ($gh,$l)=@_; $l; }
@@ -482,8 +537,8 @@ sub _funcname { my ($gh,$str)=@_; $str; }
 sub _varname { my ($gh,$str)=@_; $str; }
 sub _new_mode { my ($gh,$mode)=@; }
 sub _dl { my ($gh,$str)=@_; $str; }
-sub _ul { my ($gh,$str)=@_; $str; }
-sub _ol { my ($gh,$str)=@_; $str; }
+sub _ul { my ($gh,$level)=@_; ""; }
+sub _ol { my ($gh,$level)=@_; ""; }
 sub _blockquote { my ($gh,$str)=@_; $str; }
 sub _hr { my ($gh)=@_; "" }
 sub _heading { my ($gh,$level,$l)=@_; $l; }
@@ -649,15 +704,31 @@ sub _new_mode
 	{
 		my $tag;
 
-		# flush previous list
-		$gh->_push("</$gh->{'-mode'}>")
-			if $gh->{'-mode'};
+		# flush previous mode
+
+		# clean list levels
+		if($gh->{'-mode'} eq "ul")
+		{
+			$gh->_push("</ul>" x scalar(@{$gh->{'-ul-levels'}}));
+		}
+		elsif($gh->{'-mode'} eq "ol")
+		{
+			$gh->_push("</ol>" x scalar(@{$gh->{'-ol-levels'}}));
+		}
+		elsif($gh->{'-mode'})
+		{
+			$gh->_push("</$gh->{'-mode'}>");
+		}
 
 		# send new one
 		$tag=$params ? "<$mode $params>" : "<$mode>";
 		$gh->_push($tag) if $mode;
 
 		$gh->{'-mode'}=$mode;
+
+		# clean previous lists
+		$gh->{'-ul-levels'} = undef;
+		$gh->{'-ol-levels'} = undef;
 	}
 }
 
@@ -681,19 +752,49 @@ sub _dl
 
 sub _ul
 {
-	my ($gh)=@_;
+	my ($gh, $levels)=@_;
+	my ($ret);
 
-	$gh->_new_mode("ul");
-	return("<li>");
+	$ret="";
+
+	if($levels > 0)
+	{
+		$ret="<ul>";
+	}
+	elsif($levels < 0)
+	{
+		$ret="</ul>" x abs($levels);
+	}
+
+	$gh->{'-mode'}="ul";
+
+	$ret.="<li>";
+
+	return($ret);
 }
 
 
 sub _ol
 {
-	my ($gh)=@_;
+	my ($gh, $levels)=@_;
+	my ($ret);
 
-	$gh->_new_mode("ol");
-	return("<li>");
+	$ret="";
+
+	if($levels > 0)
+	{
+		$ret="<ol>";
+	}
+	elsif($levels < 0)
+	{
+		$ret="</ol>" x abs($levels);
+	}
+
+	$gh->{'-mode'}="ol";
+
+	$ret.="<li>";
+
+	return($ret);
 }
 
 
