@@ -52,7 +52,7 @@ Grutatxt - Text to HTML (and other formats) converter
 Grutatxt is a module to process text documents in
 a special markup format (also called Grutatxt), very
 similar to plain ASCII text. These documents can be
-converted to HTML or troff.
+converted to HTML, troff or man.
 
 The markup is designed to be fairly intuitive and
 straightforward and can include headings, bold and italic
@@ -289,6 +289,7 @@ sub process
 		# definition list
 		if($l =~ s/^\s\*\s+([\w\s\-\(\)]+)\:\s+/$gh->_dl($1)/e)
 		{
+			$gh->{'-mode-elems'} ++;
 		}
 
 		# unsorted list
@@ -296,6 +297,7 @@ sub process
 		     ($l =~ s/^(\s+)\*\s+/$gh->_unsorted_list($1)/e or
 		      $l =~ s/^(\s+)\-\s+/$gh->_unsorted_list($1)/e))
 		{
+			$gh->{'-mode-elems'} ++;
 		}
 
 		# sorted list
@@ -303,6 +305,7 @@ sub process
 		     ($l =~ s/^(\s+)\#\s+/$gh->_ordered_list($1)/e or
 		      $l =~ s/^(\s+)1\s+/$gh->_ordered_list($1)/e))
 		{
+			$gh->{'-mode-elems'} ++;
 		}
 
 		# quoted block
@@ -313,6 +316,7 @@ sub process
 		# table rows
 		elsif($l =~ s/^\s*\|(.*)\|\s*$/$gh->_table_row($1)/e)
 		{
+			$gh->{'-mode-elems'} ++;
 		}
 
 		# table heading / end of row
@@ -718,6 +722,8 @@ sub _new_mode
 		my $tag;
 
 		# flush previous mode
+		$gh->_push($gh->{'-mode-elem-close'})
+			if $gh->{'-mode-elem-close'} and $gh->{'-mode-elems'};
 
 		# clean list levels
 		if($gh->{'-mode'} eq "ul")
@@ -738,6 +744,7 @@ sub _new_mode
 		$gh->_push($tag) if $mode;
 
 		$gh->{'-mode'} = $mode;
+		$gh->{'-mode-elems'} = 0;
 
 		# clean previous lists
 		$gh->{'-ul-levels'} = undef;
@@ -749,17 +756,20 @@ sub _new_mode
 sub _dl
 {
 	my ($gh,$str) = @_;
+	my ($ret) = '';
 
 	if($gh->{'dl-as-dl'})
 	{
 		$gh->_new_mode("dl");
-		return("<dt><strong class='term'>$str</strong><dd>");
+		$ret .= "<dt><strong class='term'>$str</strong><dd>";
 	}
 	else
 	{
 		$gh->_new_mode("table");
-		return("<tr><td valign='top'><strong class='term'>$1</strong>&nbsp;&nbsp;</td><td valign='top'>");
+		$ret .= "<tr><td valign='top'><strong class='term'>$1</strong>&nbsp;&nbsp;</td><td valign='top'>";
 	}
+
+	return($ret);
 }
 
 
@@ -768,15 +778,15 @@ sub _ul
 	my ($gh, $levels) = @_;
 	my ($ret);
 
-	$ret = "";
+	$ret = '';
 
 	if($levels > 0)
 	{
-		$ret = "<ul>";
+		$ret .= "<ul>";
 	}
 	elsif($levels < 0)
 	{
-		$ret = "</ul>" x abs($levels);
+		$ret .= "</ul>" x abs($levels);
 	}
 
 	$gh->{'-mode'} = "ul";
