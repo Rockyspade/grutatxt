@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+use lib '.';
+
 #
 # grutatxt - Text to HTML (and other formats) converter
 # http://www.triptico.com/software/grutatxt.html
