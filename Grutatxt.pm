@@ -1217,7 +1217,8 @@ package Grutatxt::man;
 
 =head2 man Driver
 
-The man driver is used to generate Unix-like man pages.
+The man driver is used to generate Unix-like man pages. Note that
+all headings have the same level with this output driver.
 
 The additional parameters for a new Grutatxt object are:
 
@@ -1303,13 +1304,15 @@ sub _new_mode
 		my $tag;
 
 		# flush previous list
-		if($gh->{'-mode'} eq "pre" ||
+		if($gh->{'-mode'} eq "pre" or
 		   $gh->{'-mode'} eq "table")
 		{
 			$gh->_push(".fi");
 		}
 
-		if($gh->{'-mode'} eq "blockquote")
+		if($gh->{'-mode'} eq "blockquote" or
+		   $gh->{'-mode'} eq "ul" or
+		   $gh->{'-mode'} eq "ol")
 		{
 			$gh->_push(".RE");
 		}
@@ -1342,18 +1345,46 @@ sub _dl
 
 sub _ul
 {
-	my ($gh) = @_;
+	my ($gh, $levels) = @_;
+	my ($ret) = "";
+
+	if($levels > 0)
+	{
+		$ret = ".RS 4\n";
+	}
+	elsif($levels < 0)
+	{
+		$ret = ".RE\n" x abs($levels);
+	}
 
 	$gh->_new_mode("ul");
-	return(".TP\n\\(bu\n");
+	return($ret . ".TP\n\\(bu\n");
 }
 
 
 sub _ol
 {
-	my ($gh) = @_;
+	my ($gh, $levels) = @_;
+	my $l = @{$gh->{'-ol-levels'}};
+	my $ret = "";
 
-	return($gh->_ul());
+	$gh->{'-ol-level'} += $levels;
+
+	if($levels > 0)
+	{
+		$ret = ".RS 4\n";
+
+		$l[$gh->{'-ol-level'}] = 1;
+	}
+	elsif($levels < 0)
+	{
+		$ret = ".RE\n" x abs($levels);
+	}
+
+	$gh->_new_mode("ol");
+	$ret .= ".TP\n" . $l[$gh->{'-ol-level'}]++ . "\n";
+
+	return($ret);
 }
 
 
