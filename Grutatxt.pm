@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.8';
+$VERSION = '2.0.9-cvs';
 
 =pod
 
@@ -237,19 +237,19 @@ sub process
 			$l =~ s/(https?:\/\/\S+)\s+\(([^\)]+)\)/$gh->_url($1,$2)/ge;
 			$l =~ s/(ftps?:\/\/\S+)\s+\(([^\)]+)\)/$gh->_url($1,$2)/ge;
 			$l =~ s/(file:\/?\S+)\s+\(([^\)]+)\)/$gh->_url($1,$2)/ge;
-			$l =~ s/(\s+)(\.\/\S+)\s+\(([^\)]+)\)/$1.$gh->_url($2,$3)/ge;
-			$l =~ s/^(\.\/\S+)\s+\(([^\)]+)\)/$gh->_url($1,$2)/ge;
+			$l =~ s|(\s+)\./(\S+)\s+\(([^\)]+)\)|$1.$gh->_url($2,$3)|ge;
+			$l =~ s|^\./(\S+)\s+\(([^\)]+)\)|$gh->_url($1,$2)|ge;
 
 			# URLs without phrase
 			$l =~ s/([^=][^\"])(https?:\/\/\S+)/$1.$gh->_url($2)/ge;
 			$l =~ s/([^=][^\"])(ftps?:\/\/\S+)/$1.$gh->_url($2)/ge;
 			$l =~ s/([^=][^\"])(file:\/?\S+)/$1.$gh->_url($2)/ge;
-			$l =~ s/(\s+)(\.\/\S+)/$1.$gh->_url($2)/ge;
+			$l =~ s|(\s+)\./(\S+)|$1.$gh->_url($2)|ge;
 
 			$l =~ s/^(https?:\/\/\S+)/$gh->_url($1)/ge;
 			$l =~ s/^(ftps?:\/\/\S+)/$gh->_url($1)/ge;
 			$l =~ s/^(file:\/?\S+)/$gh->_url($1)/ge;
-			$l =~ s/^(\.\/\S+)/$gh->_url($1)/ge;
+			$l =~ s|^\./(\S+)|$gh->_url($1)|ge;
 		}
 
 		# change '''text''' and *text* into strong emphasis
