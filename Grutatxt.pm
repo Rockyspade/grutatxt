@@ -706,8 +706,12 @@ sub _escape
 sub _empty_line
 {
 	my ($gh) = @_;
+	my ($ret) = '';
 
-	return("<p>");
+	$ret .= '</p>' if $gh->{'-p'} > 0;
+	$ret .= '<p>';
+
+	return($ret);
 }
 
 
@@ -958,6 +962,14 @@ sub _table
 	}
 
 	return($str);
+}
+
+
+sub _postfix
+{
+	my ($gh) = @_;
+
+	$gh->_push('</p>') if $gh->{'-p'} > 0;
 }
 
 
