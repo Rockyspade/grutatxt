@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.10';
+$VERSION = '2.0.11-cvs';
 
 =pod
 
@@ -698,7 +698,7 @@ sub _empty_line
 {
 	my ($gh) = @_;
 
-	return("<p>");
+	return("<p />");
 }
 
 
@@ -747,10 +747,6 @@ sub _new_mode
 	if($mode ne $gh->{'-mode'})
 	{
 		my $tag;
-
-		# flush previous mode
-		$gh->_push($gh->{'-mode-elem-close'})
-			if $gh->{'-mode-elem-close'} and $gh->{'-mode-elems'};
 
 		# clean list levels
 		if($gh->{'-mode'} eq "ul")
@@ -861,7 +857,7 @@ sub _hr
 {
 	my ($gh) = @_;
 
-	return("<hr size=1 noshade>");
+	return("<hr size='1' noshade='noshade'>");
 }
 
 
@@ -896,7 +892,7 @@ sub _table
 		# calculate CSS class, if any
 		if($gh->{'class-oddeven'})
 		{
-			$class = ($gh->{'-tbl-row'} & 1) ? "odd" : "even";
+			$class = "class='" . ($gh->{'-tbl-row'} & 1) ? "odd'" : "even'";
 		}
 
 		$str = "<tr $class>";
