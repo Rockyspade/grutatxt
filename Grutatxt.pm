@@ -91,7 +91,7 @@ optional.
 
 =item I<mode>
 
-Output format. Can be HTML or troff. HTML is used if not specified.
+Output format. Can be HTML, troff or man. HTML is used if not specified.
 
 =item I<title>
 
