@@ -24,7 +24,9 @@
 
 package Grutatxt;
 
-$VERSION='2.0.1';
+use locale;
+
+$VERSION='2.0.2';
 
 =pod
 
@@ -704,9 +706,9 @@ sub _heading
 	# substitute anchor spaces with underscores
 	my ($a)=lc($l); $a =~ s/\s/_/g;
 
-	$l=sprintf("<a name=\"$a\"></a>\n<h%d class=level$level>$l</h%d>",
-		$level+$gh->{'header-offset'},
-		$level+$gh->{'header-offset'});
+	$l=sprintf("<a name=\"%s\"></a>\n<h%d class=level$level>%s</h%d>",
+		$a, $level+$gh->{'header-offset'},
+		$l, $level+$gh->{'header-offset'});
 
 	return($l);
 }
