@@ -1310,11 +1310,19 @@ sub _new_mode
 			$gh->_push(".fi");
 		}
 
-		if($gh->{'-mode'} eq "blockquote" or
-		   $gh->{'-mode'} eq "ul" or
-		   $gh->{'-mode'} eq "ol")
+		if($gh->{'-mode'} eq "blockquote")
 		{
 			$gh->_push(".RE");
+		}
+
+		if($gh->{'-mode'} eq "ul")
+		{
+			$gh->_push(".RE\n" x scalar(@{$gh->{'-ul-levels'}}));
+		}
+
+		if($gh->{'-mode'} eq "ol")
+		{
+			$gh->_push(".RE\n" x scalar(@{$gh->{'-ol-levels'}}));
 		}
 
 		# send new one
