@@ -86,7 +86,7 @@ if($version)
 }
 
 open I, $input_file or die "Can't open $input_file: $!";
-open O, $output_file or die "Can't create $output_file: $!";
+open O, ">$output_file" or die "Can't create $output_file: $!";
 
 $content = join("",<I>);
 close I;
