@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION='2.0.3m';
+$VERSION='2.0.3';
 
 =pod
 
@@ -234,11 +234,11 @@ sub process
 		if($gh->{'-process-urls'})
 		{
 			# URLs followed by a parenthesized phrase
-			$l =~ s/(http:\/\/[\w\/\.\?\&\=\-\%\;]*)\s*\(([^\)]+)\)/$gh->_url($1,$2)/ge;
+			$l =~ s/(http:\/\/\S+)\s+\(([^\)]+)\)/$gh->_url($1,$2)/ge;
 
 			# URLs without phrase
-			$l =~ s/([^=][^\"])(http:\/\/[\w\/\.\?\&\=\-\%\;]*)/$1.$gh->_url($2,$2)/ge;
-			$l =~ s/^(http:\/\/[\w\/\.\?\&\=\-\%\;]*)/$gh->_url($1,$1)/ge;
+			$l =~ s/([^=][^\"])(http:\/\/\S+)/$1.$gh->_url($2)/ge;
+			$l =~ s/^(http:\/\/\S+)/$gh->_url($1)/ge;
 		}
 
 		# change '''text''' and *text* into strong emphasis
