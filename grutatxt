@@ -114,7 +114,9 @@ unless($no_body)
 {
 	print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"\n";
 	print " 	\"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
-	print "<html><head><title>$title</title>\n";
+	print "<html><head>\n";
+	print "<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>\n";
+	print "<title>$title</title>\n";
 
 	printf "<!-- converted from text by grutatxt $VERSION on %s -->\n", scalar(localtime);
 	print "<link rel=StyleSheet href='$css' type='text/css'>" if $css;
