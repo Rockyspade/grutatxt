@@ -10,17 +10,22 @@ This software is GPL. NO WARRANTY. See file 'COPYING' for details.
 Intro
 -----
 
-Grutatxt is a plain text to HTML converter. It succesfully converts subtle
-text markup to lists, bold, italics, tables and headings to their
-corresponding HTML tags without having to write unreadable source text files.
+Grutatxt is a plain text to HTML (and now other formats) converter. It
+succesfully converts subtle text markup to lists, bold, italics, tables
+and headings to their corresponding HTML tags or troff commands without
+having to write unreadable source text files.
 
-To install Grutatxt, just do
+To install Grutatxt, do it just like you would do to any Perl module, so
 
+	 $ perl Makefile.PL
 	 $ make
 
 and then, as root
 
 	 # make install
+
+This will install the perl module (Grutatxt.pm) as well as the command
+line utility (grutatxt).
 
 Grutatxt includes several command-line arguments; see them using
 
@@ -31,6 +36,10 @@ understand so that it serves also as a demo. So, to see how this file will
 look after being converted by Grutatxt, you can just do
 
 	 $ grutatxt < README > README.html
+
+or
+
+	 $ grutatxt --mode=troff < README | groff -t -me -Tps > README.ps
 
 and see its effects.
 
@@ -202,12 +211,6 @@ A separator line (horizontal ruler) can be inserted by typing four or more
 hyphens alone in a line. To avoid being confused with a second level
 heading, insert a blank line just before. To the end of this document
 there should be a separator, above my signature.
-
-Miscellaneous notes
--------------------
-
- * Grutatxt is part of a bigger project, Gruta, a hyerarchical CGI notepad
-   being developed.
 
 ----
 Angel Ortega http://www.triptico.com

@@ -1,0 +1,13 @@
+
+Grutatxt - Text to HTML (and others) converter
+Copyright (C) 2002 Angel Ortega <angel@triptico.com>
+Home Page: http://www.triptico.com/software/grutatxt.html
+
+Changelog
+=========
+
+2.0.0 - dom nov 24 15:44:46 CET 2002
+------------------------------------
+
+ - Functionality has been moved to a Perl module.
+ - New troff driver.
