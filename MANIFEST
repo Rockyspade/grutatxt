@@ -5,3 +5,4 @@ Makefile.PL
 Grutatxt.pm
 README
 grutatxt
+grutatxt.1
