@@ -424,7 +424,7 @@ sub _calc_col_span
 	$l =~ s/^\+//;
 	$l =~ s/-//g;
 
-	my ($t) = 1; @spans=();
+	my ($t) = 1; @spans = ();
 	for(my $n = 0;$n < length($l);$n++)
 	{
 		if(substr($l,$n,1) eq '+')
