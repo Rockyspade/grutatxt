@@ -758,7 +758,7 @@ sub _dl
 	else
 	{
 		$gh->_new_mode("table");
-		return("<tr><td valign=top><strong class='term'>$1</strong>&nbsp;&nbsp;</td><td valign=top>");
+		return("<tr><td valign='top'><strong class='term'>$1</strong>&nbsp;&nbsp;</td><td valign='top'>");
 	}
 }
 
@@ -839,8 +839,8 @@ sub _heading
 	$a =~ s/\s/_/g;
 	$a =~ s/<[^>]+>//g;
 
-	$l = sprintf("<a name=\"%s\"></a>\n<h%d class='level$level'>%s</h%d>",
-		$a, $level+$gh->{'header-offset'},
+	$l = sprintf("<a name='%s' id='%s'></a>\n<h%d class='level$level'>%s</h%d>",
+		$a, $a, $level+$gh->{'header-offset'},
 		$l, $level+$gh->{'header-offset'});
 
 	return($l);
@@ -872,7 +872,7 @@ sub _table
 			$i = ${$gh->{'-table'}}[$n];
 			$i = "&nbsp;" if $i =~ /^\s*$/;
 
-			$s = " colspan=$spans[$n]" if $spans[$n] > 1;
+			$s = " colspan='$spans[$n]'" if $spans[$n] > 1;
 
 			if($gh->{'table-headers'} and $gh->{'-tbl-row'} == 1)
 			{
@@ -894,7 +894,7 @@ sub _table
 
 		$params = "border=1";
 		$params .= " width='100\%'" if $gh->{'expand-tables'};
-		$params .= " align=center" if $gh->{'center-tables'};
+		$params .= " align='center'" if $gh->{'center-tables'};
 		$params .= " class='oddeven'" if $gh->{'class-oddeven'};
 
 		$gh->_new_mode("table", $params);
