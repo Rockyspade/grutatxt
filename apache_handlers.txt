@@ -1,0 +1,50 @@
+Apache + Grutatxt: The Simplest Possible Website
+================================================
+
+By http://gweb.org (Geoffrey Plitt)
+
+I envisioned an entire website consisting of nothing but human-readable
+text files that are converted to HTML by the web server when necessary,
+with the least amount of extra junk in there. Here's how I did it.
+
+.htaccess (root folder):
+------------------------
+  Options -Indexes
+  DirectoryIndex index.html index.text
+  Action handle_text /cgi-bin/handle_text.cgi
+  AddHandler handle_text .text
+
+This allows you to mix html and "text" content, which is converted to HTML
+by Grutatxt.
+
+/cgi-bin/handle_text.cgi:
+-------------------------
+  #!/bin/bash
+  echo "Content-type: text/html"
+  echo
+  base=`basename $PATH_TRANSLATED`
+  if [ "$QUERY_STRING" = "" ]; then
+    echo "<HTML><BODY>"
+    cat $PATH_TRANSLATED | grutatxt -nb
+    echo "<br><br><small><i>"
+    echo "Generated with <a href='"
+    echo "http://www.triptico.com/software/grutatxt.html"
+    echo "'>Grutatxt</a>. View <a href='$base?SOURCE'>page source</a>"
+    echo "</i></small></BODY></HTML>"
+  else
+    echo "<html><body><small>"
+    # The confusing sed stuff just displays ampersands and brackets.
+    cat $PATH_TRANSLATED | sed 's/&/\&amp;/g;s/</\&lt;/g;s/>/\&gt;/g' |
+     while read L; do
+       echo "$L<br>"
+     done
+    echo "</small></body></html>"
+  fi
+
+/index.text (any folder)
+-----------------------
+  I'm an auto-grutatxt'ed HTML page
+  -----
+
+  And here is a body paragraph!
+
