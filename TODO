@@ -1,9 +1,19 @@
-Grutatxt TODO
-=============
+Grutatxt TODO / Bug List
+========================
 
-Improvements
-------------
+Open Bugs
+---------
 
- - New perldoc driver.
- - New RTF driver.
- - New OpenOffice.org driver.
+Pending Enhancements
+--------------------
+
+ * 1000: Add an OpenOffice.org driver.
+ * 1001: Add a perldoc driver.
+ * 1002: Add a RTF driver.
+ * 1003: Add a docbook driver.
+ * 1004: New markup for footnotes.
+
+Closed
+------
+
+Email bugs to angel@triptico.com
