@@ -542,6 +542,15 @@ sub _ordered_list
 }
 
 
+sub _close_prev_elem
+{
+	my ($gh) = @_;
+
+	return($gh->{'-mode-elem-close'})
+		if $gh->{'-mode-elem-close'} and $gh->{'-mode-elems'};
+}
+
+
 # empty stubs for falling through the superclass
 
 sub _inline { my ($gh,$l) = @_; $l; }
@@ -715,15 +724,17 @@ sub _varname
 
 sub _new_mode
 {
-	my ($gh,$mode,$params) = @_;
+	my ($gh, $mode, $params, $elem_close) = @_;
+
+	# close previous element, if needed
+	if($_ = $gh->_close_prev_elem())
+	{
+		$gh->_push($_);
+	}
 
 	if($mode ne $gh->{'-mode'})
 	{
 		my $tag;
-
-		# flush previous mode
-		$gh->_push($gh->{'-mode-elem-close'})
-			if $gh->{'-mode-elem-close'} and $gh->{'-mode-elems'};
 
 		# clean list levels
 		if($gh->{'-mode'} eq "ul")
@@ -745,6 +756,7 @@ sub _new_mode
 
 		$gh->{'-mode'} = $mode;
 		$gh->{'-mode-elems'} = 0;
+		$gh->{'-mode-elem-close'} = $elem_close;
 
 		# clean previous lists
 		$gh->{'-ul-levels'} = undef;
@@ -760,12 +772,12 @@ sub _dl
 
 	if($gh->{'dl-as-dl'})
 	{
-		$gh->_new_mode("dl");
-		$ret .= "<dt><strong class='term'>$str</strong><dd>";
+		$gh->_new_mode("dl",undef,"</dd>");
+		$ret .= "<dt><strong class='term'>$str</strong></dt><dd>";
 	}
 	else
 	{
-		$gh->_new_mode("table");
+		$gh->_new_mode("table",undef,"</td></tr>");
 		$ret .= "<tr><td valign='top'><strong class='term'>$1</strong>&nbsp;&nbsp;</td><td valign='top'>";
 	}
 
@@ -778,7 +790,7 @@ sub _ul
 	my ($gh, $levels) = @_;
 	my ($ret);
 
-	$ret = '';
+	$ret = $gh->_close_prev_elem();
 
 	if($levels > 0)
 	{
@@ -790,6 +802,7 @@ sub _ul
 	}
 
 	$gh->{'-mode'} = "ul";
+	$gh->{'-mode-elem-close'} = "</li>";
 
 	$ret .= "<li>";
 
@@ -802,7 +815,7 @@ sub _ol
 	my ($gh, $levels) = @_;
 	my ($ret);
 
-	$ret = "";
+	$ret = $gh->_close_prev_elem();
 
 	if($levels > 0)
 	{
@@ -814,6 +827,7 @@ sub _ol
 	}
 
 	$gh->{'-mode'} = "ol";
+	$gh->{'-mode-elem-close'} = "</li>";
 
 	$ret .= "<li>";
 
