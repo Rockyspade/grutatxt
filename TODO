@@ -9,3 +9,8 @@ Improvements
  - New RTF driver.
  - New OpenOffice.org driver.
 
+Bugs
+----
+
+ - If some tag (as lists and such) is left open at the end of
+   the document, close it.
