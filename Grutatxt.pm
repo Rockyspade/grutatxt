@@ -876,8 +876,8 @@ sub _heading
 	$a =~ s/\s/_/g;
 	$a =~ s/<[^>]+>//g;
 
-	$l = sprintf("<a name='%s' id='%s'></a>\n<h%d class='level$level'>%s</h%d>",
-		$a, $a, $level+$gh->{'header-offset'},
+	$l = sprintf("<a name='%s'></a>\n<h%d class='level$level'>%s</h%d>",
+		$a, $level+$gh->{'header-offset'},
 		$l, $level+$gh->{'header-offset'});
 
 	return($l);
