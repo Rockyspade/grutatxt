@@ -2,7 +2,7 @@ Grutatxt README
 ===============
 
  Grutatxt - Text to HTML converter
- Copyright (C) 2000/2004 Angel Ortega <angel@triptico.com>
+ Copyright (C) 2000/2005 Angel Ortega <angel@triptico.com>
  Home Page: http://www.triptico.com/software/grutatxt.html
 
 This software is GPL. NO WARRANTY. See file 'COPYING' for details.
@@ -56,7 +56,7 @@ one that contains only a repetition of a special character (see 'Text
 paragraphs' and 'Headings' for an example). There are three heading
 levels depending on this special character: if it's a line of = (equal
 sign), it's a first level heading, used for titles and tagged with h1 HTML
-tags. If it's - (hyphen), it's a second level heading, and it it's ~
+tags. If it's - (hyphen), it's a second level heading, and if it's ~
 (tilde), a third level one. This document shows the three heading levels.
 It's suggested that the first level heading is used only once, as it's
 magically taken as the title for the HTML page, if one is not overriden as
@@ -102,15 +102,11 @@ followed by an special character.
  * Lists can have multiple levels. To add another level,
    * Just indent a bit deeper,
      * and have hours of fun
-       * nesting
-         * and nesting.
+       * nesting.
  * Numbered lists are marked up almost the same, just by substuting the
    asterisk by a # (sharp) or 1 (number one).
  * Definition lists are marked up almost the same, but delimiting the
-   definition term from the definition itself by a colon. These lists are
-   rendered using tables, unless you specify a command line argument to
-   force them being rendered with standard <dl> HTML marks (too ugly
-   for me).
+   definition term from the definition itself by a colon.
 
 List examples
 ~~~~~~~~~~~~~
