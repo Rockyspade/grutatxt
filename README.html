@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+ 	"http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><head><title>Grutatxt README</title>
+<!-- converted from text by grutatxt 0.7.6 on Sun Sep 15 20:00:24 2002 -->
+<body bgcolor=white text=black>
+<h1 class=level1>Grutatxt README</h1>
+<p>
+<pre>
+ Grutatxt - Text to HTML converter
+ Copyright (C) 2002 Angel Ortega &lt;angel@triptico.com&gt;
+ Home Page: <a href="http://www.triptico.com/software/grutatxt.html">http://www.triptico.com/software/grutatxt.html</a>
+</pre>
+<p>
+This software is GPL. NO WARRANTY. See file 'COPYING' for details.
+<p>
+<h2 class=level2>Intro</h2>
+<p>
+Grutatxt is a plain text to HTML converter. It succesfully converts subtle
+text markup to lists, bold, italics, tables and headings to their
+corresponding HTML tags without having to write unreadable source text files.
+<p>
+To install Grutatxt, just do
+<p>
+<pre>
+	 $ make
+</pre>
+<p>
+and then, as root
+<p>
+<pre>
+	 # make install
+</pre>
+<p>
+Grutatxt includes several command-line arguments; see them using
+<p>
+<pre>
+	 $ grutatxt --help
+</pre>
+<p>
+This README file contains all the marks that Grutatxt is able to
+understand so that it serves also as a demo. So, to see how this file will
+look after being converted by Grutatxt, you can just do
+<p>
+<pre>
+	 $ grutatxt &lt; README &gt; README.html
+</pre>
+<p>
+and see its effects.
+<p>
+<h2 class=level2>Text paragraphs</h2>
+<p>
+A text paragraph is any group of lines containing text delimited by one or
+more blank lines, provided that none of them beings with a blank space.
+So, you just write lines as usual (wrapping or not), and separates
+paragraphs as in a word processor.
+<p>
+<h2 class=level2>Headings</h2>
+<p>
+A line is understand as a heading if it's immediately followed by another
+one that contains only a repetition of a special character (see 'Text
+paragraphs' and 'Headings' for an example). There are three heading
+levels depending on this special character: if it's a line of = (equal
+sign), it's a first level heading, used for titles and tagged with h1 HTML
+tags. If it's - (hyphen), it's a second level heading, and it it's ~
+(tilde), a third level one. This document shows the three heading levels.
+It's suggested that the first level heading is used only once, as it's
+magically taken as the title for the HTML page, if one is not overriden as
+a command line argument.
+<p>
+<h2 class=level2>Text effects</h2>
+<p>
+If some text is surrounded by asterisks, as <strong class=strong>this one</strong>, it's marked as
+bold (you probably wrote text this way in email to emphasize something).
+As well, text surrounded by the _ symbol (underscore), as <em class=em>this one</em>, is
+marked as italic. Bold can also be marked up surrounding the text with three
+apostrophes (<strong class=strong>this way</strong>) and italics with two (<em class=em>this way</em>). If you ever
+used a WikiWikiWeb system you'll be familiar with these ones.
+<p>
+Other special text is automatically recognized, as URLs (so the URL
+<a href="http://www.triptico.com">http://www.triptico.com</a> should be clickable). Grutatxt can also be useful
+documenting source code, as function names like <code class=funcname>printf()</code> or variables like
+<code class=varname>$username</code> are also highlighted. There are command line arguments to make
+the parenthesis and / or leading dollar to disappear from the output
+document.
+<p>
+URLs are simply substituted as shown above; if an URL is followed by a
+phrase surrounded by parentheses (just like you naturally would do to
+explain the contents of a web), this phrase is used as the link text,
+as in this example pointing to
+<a href="http://www.triptico.com/software/grutatxt.html">Grutatxt Home Page</a>.
+<p>
+<h2 class=level2>Lists</h2>
+<p>
+Grutatxt is powerful rendering lists. There are three types of lists:
+unnumbered ones (bulleted), numbered ones and definition lists. They are
+recognized as lines starting with a blank (space or tab) immediately
+followed by an special character.
+<p>
+<ul>
+<li>Unnumbered lists start with a blank, followed by an asterisk, followed   by another blank. If the following lines are three-space indented, they
+   are assumed as part of the same list element. The asterisk can also be
+   a - (hyphen).
+
+<li>Numbered list are marked up almost the same, just by substuting the   asterisk by a # (sharp) or 1 (number one).
+
+<li>Definition lists are marked up almost the same, but delimiting the   definition term from the definition itself by a colon. These lists are
+   rendered using tables, unless you specify a command line argument to
+   force them being rendered with standard &lt;dl&gt; HTML marks (too ugly
+   for me).
+
+</ul>
+<p>
+<h3 class=level3>List examples</h3>
+<p>
+Unnumbered list:
+<p>
+<ul>
+<li>First element.
+<li>The second one.
+<li>The third one.
+</ul>
+<p>
+Numbered list:
+<p>
+<ol>
+<li>First element.
+<li>The second one.
+<li>The third one.
+</ol>
+<p>
+Definition list:
+<p>
+<table >
+<tr><td valign=top><strong class=strong>first</strong class=strong>&nbsp;&nbsp;</td><td valign=top>the first element
+<tr><td valign=top><strong class=strong>second</strong class=strong>&nbsp;&nbsp;</td><td valign=top>the second element
+<tr><td valign=top><strong class=strong>third</strong class=strong>&nbsp;&nbsp;</td><td valign=top>the third element
+</table>
+<p>
+<h2 class=level2>Preformatted text</h2>
+<p>
+A text that should be rendered as is should be written with at least a
+blank in the beginning of all lines. This can be an example:
+<p>
+<pre>
+ int main(int argc, char * argv[])
+ {
+	/* an example of useless C code */
+	return(0);
+ }
+</pre>
+<p>
+If you ever wrote any Perl POD documentation, you'll be familiar with this.
+<p>
+If you happen to be using preformatted text that collisions with list
+definitions (i.e. text with lines beginning with blank, asterisk, blank or
+similar), just use more than one blank in the beginning of each line.
+<p>
+<h2 class=level2>HTML</h2>
+<p>
+If you need to insert HTML as is (for rendering, say, images or
+complicated layouts), you can also do it. Anything between a line
+containing only two &lt; symbols and a line containing two &gt; symbols will be
+passed without any further processing. So, to insert an image, just do
+this:
+<p>
+<center>
+<img src='http://www.triptico.com/data/themask.jpg'>
+</center>
+<p>
+Any other HTML outside this boundaries is escaped.
+<p>
+<h2 class=level2>Tables</h2>
+<p>
+But where Grutatxt is really awesome is rendering tables. They are created
+using the + (plus) sign for corners, the - (hyphen) for horizontal lines
+and the | (pipe) for vertical lines. So this is a table:
+<p>
+<table border=1 >
+
+
+<tr ><th >  Band Name	  		 </th><th >  Album Name		 			</th><th >  Number of   Songs     </th>
+
+<tr ><td >  Dead Can Dance </td><td >  A Passage in Time	</td><td >  16	    </td>
+
+<tr ><td >  Bel Canto	 </td><td >  White-Out Conditions </td><td >  10	    </td>
+
+<tr ><td >  Depeche Mode	 </td><td >  Speak and Spell	</td><td >  16	    </td>
+
+
+<tr ><td >  Love Spirals	   Downwards	 </td><td >  Temporal		 			</td><td >  13	     	    </td>
+</table>
+<p>
+As you can see, cells with long text inside can span several lines of
+physical text, provided that you delimit table rows with a new line
+containing only + and - symbols.
+<p>
+A column can also span several ones, just by marking the intersections
+with | (pipe) instead of + (plus). Look in this example how it's done:
+<p>
+<table border=1 >
+
+<tr ><th >  Head 1    </th><th >  Head 2	  </th><th >  Head 3	</th><th >  Head 4    </th>
+
+<tr ><td >  Cell 1-1  </td><td  colspan=2>  Cell spanning two 	</td><td  colspan=2>  Cell 1-3  </td>
+
+<tr ><td >  Cell 2-1  </td><td >  Cell 2-2	  </td><td >  Cell 2-3	</td><td >  Cell 2-4  </td>
+
+<tr ><td >  Cell 3-1  </td><td  colspan=3>  Cell spanning three		    </td>
+</table>
+<p>
+It's not possible to span rows by now.
+<p>
+<h2 class=level2>Separators</h2>
+<p>
+A separator line (horizontal ruler) can be inserted by typing four or more
+hyphens alone in a line. To avoid being confused with a second level
+heading, insert a blank line just before. To the end of this document
+there should be a separator, above my signature.
+<p>
+<h2 class=level2>Miscellaneous notes</h2>
+<p>
+<ul>
+<li>Grutatxt is part of a bigger project, Gruta, a hyerarchical CGI notepad   being developed.
+
+</ul>
+<p>
+<hr noshade size=1>
+Angel Ortega <a href="http://www.triptico.com">http://www.triptico.com</a>
+</body></html>
