@@ -1358,7 +1358,7 @@ sub _ul
 	}
 
 	$gh->_new_mode("ul");
-	return($ret . ".TP\n\\(bu\n");
+	return($ret . ".TP 4\n\\(bu\n");
 }
 
 
@@ -1382,7 +1382,7 @@ sub _ol
 	}
 
 	$gh->_new_mode("ol");
-	$ret .= ".TP\n" . $l[$gh->{'-ol-level'}]++ . "\n";
+	$ret .= ".TP 4\n" . $l[$gh->{'-ol-level'}]++ . ".\n";
 
 	return($ret);
 }
