@@ -892,7 +892,7 @@ sub _table
 		# new table
 		my ($params);
 
-		$params = "border=1";
+		$params = "border='1'";
 		$params .= " width='100\%'" if $gh->{'expand-tables'};
 		$params .= " align='center'" if $gh->{'center-tables'};
 		$params .= " class='oddeven'" if $gh->{'class-oddeven'};
