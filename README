@@ -194,16 +194,17 @@ HTML
 ----
 
 If you need to insert HTML as is (for rendering, say, images or
-complicated layouts), you can also do it. Anything between a line
-containing only two < symbols and a line containing two > symbols will be
-passed without any further processing. So, to insert an image, just do
-this:
+complicated layouts), you can also do it. Anything between two < symbols
+and two > symbols will be passed without any further processing. So, to
+insert an image, just do this:
 
 <<
 <center>
 <img src='http://www.triptico.com/data/themask.jpg' alt="The Mask Cover">
 </center>
 >>
+
+Passthrough code can also be inline as in << <sup>this</sup> >> example.
 
 Any other HTML outside this boundaries is escaped.
 
