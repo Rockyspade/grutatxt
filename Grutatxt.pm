@@ -1287,11 +1287,21 @@ sub _new_mode
 			$gh->_push(".fi");
 		}
 
+		if($gh->{'-mode'} eq "blockquote")
+		{
+			$gh->_push(".RE");
+		}
+
 		# send new one
 		if($mode eq "pre" or
 		   $mode eq "table")
 		{
 			$gh->_push(".nf");
+		}
+
+		if($mode eq "blockquote")
+		{
+			$gh->_push(".RS 4");
 		}
 
 		$gh->{'-mode'} = $mode;
@@ -1325,19 +1335,11 @@ sub _ol
 }
 
 
-sub _blockquote
-{
-	my ($gh) = @_;
-
-	return("");
-}
-
-
 sub _hr
 {
 	my ($gh) = @_;
 
-	return("--------------\n");
+	return("");
 }
 
 
