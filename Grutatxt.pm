@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.6';
+$VERSION = '2.0.7-CVS';
 
 =pod
 
@@ -454,6 +454,8 @@ sub _table_row
 	{
 		${$gh->{'-table'}}[$n] .= ' ' . $s[$n];
 	}
+
+	push(@{$gh->{'-table-raw'}}, $str);
 
 	return("");
 }
@@ -1203,6 +1205,178 @@ sub _postfix
 	unshift(@{$gh->{'o'}},".of '' '\%'");
 	unshift(@{$gh->{'o'}},".eh '$gh->{'-title'}' ''");
 	unshift(@{$gh->{'o'}},".oh '' '$gh->{'-title'}'");
+}
+
+
+###########################################################
+# man Driver
+
+package Grutatxt::man;
+
+@ISA = ("Grutatxt::troff", "Grutatxt");
+
+sub new
+{
+	my ($class,%args) = @_;
+	my ($gh);
+
+	bless(\%args,$class);
+	$gh = \%args;
+
+	$gh->{'-process-urls'} = 0;
+
+	$gh->{'section'} ||= 1;
+	$gh->{'page-name'} ||= "";
+
+	return($gh);
+}
+
+
+sub _prefix
+{
+	my ($gh) = @_;
+
+	$gh->_push(".TH \"$gh->{'page-name'}\" \"$gh->{'section'}\" \"" . localtime() . "\"");
+}
+
+
+sub _inline
+{
+	my ($gh,$l) = @_;
+
+	# accept only man markup inlines
+	if($l =~ /^<<\s*man$/i)
+	{
+		$gh->{'-inline'} = "man";
+		return;
+	}
+
+	if($l =~ /^>>$/)
+	{
+		delete $gh->{'-inline'};
+		return;
+	}
+
+	if($gh->{'-inline'} eq "man")
+	{
+		$gh->_push($l);
+	}
+}
+
+
+sub _empty_line
+{
+	my ($gh) = @_;
+
+	return(".PP");
+}
+
+
+sub _new_mode
+{
+	my ($gh,$mode,$params) = @_;
+
+	if($mode ne $gh->{'-mode'})
+	{
+		my $tag;
+
+		# flush previous list
+		if($gh->{'-mode'} eq "pre" ||
+		   $gh->{'-mode'} eq "table")
+		{
+			$gh->_push(".fi");
+		}
+
+		# send new one
+		if($mode eq "pre" or
+		   $mode eq "table")
+		{
+			$gh->_push(".nf");
+		}
+
+		$gh->{'-mode'} = $mode;
+	}
+}
+
+
+sub _dl
+{
+	my ($gh,$str) = @_;
+
+	$gh->_new_mode("dl");
+	return(".TP\n.B \"$str\"\n");
+}
+
+
+sub _ul
+{
+	my ($gh) = @_;
+
+	$gh->_new_mode("ul");
+	return(".TP\n\\(bu\n");
+}
+
+
+sub _ol
+{
+	my ($gh) = @_;
+
+	return($gh->_ul());
+}
+
+
+sub _blockquote
+{
+	my ($gh) = @_;
+
+	return("");
+}
+
+
+sub _hr
+{
+	my ($gh) = @_;
+
+	return("--------------\n");
+}
+
+
+sub _heading
+{
+	my ($gh,$level,$l) = @_;
+
+	# all headers are the same depth in man pages
+	return(".SH \"" . uc($l) . "\"");
+}
+
+
+sub _table
+{
+	my ($gh,$str) = @_;
+
+	if($gh->{'-mode'} eq "table")
+	{
+		foreach my $r (@{$gh->{'-table-raw'}})
+		{
+			$gh->_push("|$r|");
+		}
+	}
+	else
+	{
+		$gh->_new_mode("table");
+	}
+
+	@{$gh->{'-table'}} = ();
+	@{$gh->{'-table-raw'}} = ();
+
+	$gh->_push($str);
+
+	return("");
+}
+
+
+sub _postfix
+{
 }
 
 
