@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION='2.0.5m';
+$VERSION = '2.0.5m';
 
 =pod
 
@@ -146,14 +146,14 @@ array that marks the end of the subject.
 
 sub new
 {
-	my ($class,%args)=@_;
+	my ($class,%args) = @_;
 	my ($gh);
 
-	$args{'mode'}||='HTML';
+	$args{'mode'} ||= 'HTML';
 
-	$class.="::".$args{'mode'};
+	$class .= "::" . $args{'mode'};
 
-	$gh=new $class(%args);
+	$gh = new $class(%args);
 			      
 	return($gh);
 }
@@ -170,29 +170,29 @@ as an array of lines.
 
 sub process
 {
-	my ($gh,$content)=@_;
+	my ($gh,$content) = @_;
 	my ($p);
 
 	# clean output
-	@{$gh->{'o'}}=();
+	@{$gh->{'o'}} = ();
 
 	# clean title and paragraph numbers
-	$gh->{'-title'}="";
-	$gh->{'-p'}=0;
+	$gh->{'-title'} = "";
+	$gh->{'-p'} = 0;
 
 	# clean marks
-	@{$gh->{'marks'}}=() if ref($gh->{'marks'});
+	@{$gh->{'marks'}} = () if ref($gh->{'marks'});
 
 	# clean index
-	@{$gh->{'index'}}=() if ref($gh->{'index'});
+	@{$gh->{'index'}} = () if ref($gh->{'index'});
 
 	# reset abstract line
-	${$gh->{'abstract'}}=0 if ref($gh->{'abstract'});
+	${$gh->{'abstract'}} = 0 if ref($gh->{'abstract'});
 
 	# insert prefix
 	$gh->_prefix();
 
-	$gh->{'-mode'}=undef;
+	$gh->{'-mode'} = undef;
 
 	foreach my $l (split(/\n/,$content))
 	{
@@ -213,7 +213,7 @@ sub process
 		}
 
 		# escape possibly dangerous characters
-		$l=$gh->_escape($l);
+		$l = $gh->_escape($l);
 
 		# empty lines
 		$l =~ s/^\r$//ge;
@@ -226,8 +226,8 @@ sub process
 
 				# mark abstract if it's the
 				# second paragraph from the title
-				${$gh->{'abstract'}}=scalar(@{$gh->{'o'}})-1
-					if $gh->{'-p'}==2;
+				${$gh->{'abstract'}} = scalar(@{$gh->{'o'}})-1
+					if $gh->{'-p'} == 2;
 			}
 		}
 
@@ -350,10 +350,10 @@ sub process
 	$gh->_postfix();
 
 	# set title
-	${$gh->{'title'}}=$gh->{'-title'} if ref($gh->{'title'});
+	${$gh->{'title'}} = $gh->{'-title'} if ref($gh->{'title'});
 
 	# set abstract, if not set
-	${$gh->{'abstract'}}=scalar(@{$gh->{'o'}})
+	${$gh->{'abstract'}} = scalar(@{$gh->{'o'}})
 		if ref($gh->{'abstract'}) and not ${$gh->{'abstract'}};
 
 	return(@{$gh->{'o'}});
@@ -370,11 +370,11 @@ Processes a file in Grutatxt format.
 
 sub process_file
 {
-	my ($gh,$file)=@_;
+	my ($gh,$file) = @_;
 
 	open F, $file or return(undef);
 
-	my ($content)=join('',<F>);
+	my ($content) = join('',<F>);
 	close F;
 
 	return($gh->process($content));
@@ -383,7 +383,7 @@ sub process_file
 
 sub _push
 {
-	my ($gh,$l)=@_;
+	my ($gh,$l) = @_;
 
 	push(@{$gh->{'o'}},$l);
 }
@@ -391,10 +391,10 @@ sub _push
 
 sub _process_heading
 {
-	my ($gh,$level,$hd)=@_;
+	my ($gh,$level,$hd) = @_;
 	my ($l);
 
-	$l=pop(@{$gh->{'o'}});
+	$l = pop(@{$gh->{'o'}});
 
 	if($l eq $gh->_empty_line())
 	{
@@ -403,7 +403,7 @@ sub _process_heading
 	}
 
 	# store title
-	$gh->{'-title'}=$l if $level==1 and not $gh->{'-title'};
+	$gh->{'-title'} = $l if $level == 1 and not $gh->{'-title'};
 
 	# store index
 	if(ref($gh->{'index'}))
@@ -417,20 +417,20 @@ sub _process_heading
 
 sub _calc_col_span
 {
-	my ($gh,$l)=@_;
+	my ($gh,$l) = @_;
 	my (@spans);
 
 	# strip first + and all -
 	$l =~ s/^\+//;
 	$l =~ s/-//g;
 
-	my ($t)=1; @spans=();
-	for(my $n=0;$n < length($l);$n++)
+	my ($t) = 1; @spans=();
+	for(my $n = 0;$n < length($l);$n++)
 	{
 		if(substr($l,$n,1) eq '+')
 		{
 			push(@spans,$t);
-			$t=1;
+			$t = 1;
 		}
 		else
 		{
@@ -446,13 +446,13 @@ sub _calc_col_span
 
 sub _table_row
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 
-	my @s=split(/\|/,$str);
+	my @s = split(/\|/,$str);
 
-	for(my $n=0;$n < scalar(@s);$n++)
+	for(my $n = 0;$n < scalar(@s);$n++)
 	{
-		${$gh->{'-table'}}[$n].=' '.$s[$n];
+		${$gh->{'-table'}}[$n] .= ' ' . $s[$n];
 	}
 
 	return("");
@@ -461,16 +461,16 @@ sub _table_row
 
 sub _pre
 {
-	my ($gh,$l)=@_;
+	my ($gh,$l) = @_;
 
 	# if any other mode is active, add to it
 	if($gh->{'-mode'} and $gh->{'-mode'} ne "pre")
 	{
 		$l =~ s/^\s+//;
 
-		my ($a)=pop(@{$gh->{'o'}})." ".$l;
+		my ($a) = pop(@{$gh->{'o'}})." ".$l;
 		$gh->_push($a);
-		$l="";
+		$l = "";
 	}
 	else
 	{
@@ -483,7 +483,7 @@ sub _pre
 
 sub _multilevel_list
 {
-	my ($gh, $str, $ind)=@_;
+	my ($gh, $str, $ind) = @_;
 	my (@l,$level);
 
 	@l = @{$gh->{$str}};
@@ -517,7 +517,7 @@ sub _multilevel_list
 
 sub _unsorted_list
 {
-	my ($gh, $ind)=@_;
+	my ($gh, $ind) = @_;
 
 	return($gh->_ul($gh->_multilevel_list('-ul-levels', $ind)));
 }
@@ -525,7 +525,7 @@ sub _unsorted_list
 
 sub _ordered_list
 {
-	my ($gh, $ind)=@_;
+	my ($gh, $ind) = @_;
 
 	return($gh->_ol($gh->_multilevel_list('-ol-levels', $ind)));
 }
@@ -533,24 +533,24 @@ sub _ordered_list
 
 # empty stubs for falling through the superclass
 
-sub _inline { my ($gh,$l)=@_; $l; }
-sub _escape { my ($gh,$l)=@_; $l; }
-sub _empty_line { my ($gh)=@_; ""; }
-sub _url { my ($gh,$url,$label)=@_; ""; }
-sub _strong { my ($gh,$str)=@_; $str; }
-sub _em { my ($gh,$str)=@_; $str; }
-sub _funcname { my ($gh,$str)=@_; $str; }
-sub _varname { my ($gh,$str)=@_; $str; }
-sub _new_mode { my ($gh,$mode)=@; }
-sub _dl { my ($gh,$str)=@_; $str; }
-sub _ul { my ($gh,$level)=@_; ""; }
-sub _ol { my ($gh,$level)=@_; ""; }
-sub _blockquote { my ($gh,$str)=@_; $str; }
-sub _hr { my ($gh)=@_; "" }
-sub _heading { my ($gh,$level,$l)=@_; $l; }
-sub _table { my ($gh,$str)=@_; $str; }
-sub _prefix { my ($gh)=@_; }
-sub _postfix { my ($gh)=@_; }
+sub _inline { my ($gh,$l) = @_; $l; }
+sub _escape { my ($gh,$l) = @_; $l; }
+sub _empty_line { my ($gh) = @_; ""; }
+sub _url { my ($gh,$url,$label) = @_; ""; }
+sub _strong { my ($gh,$str) = @_; $str; }
+sub _em { my ($gh,$str) = @_; $str; }
+sub _funcname { my ($gh,$str) = @_; $str; }
+sub _varname { my ($gh,$str) = @_; $str; }
+sub _new_mode { my ($gh,$mode) = @_; }
+sub _dl { my ($gh,$str) = @_; $str; }
+sub _ul { my ($gh,$level) = @_; ""; }
+sub _ol { my ($gh,$level) = @_; ""; }
+sub _blockquote { my ($gh,$str) = @_; $str; }
+sub _hr { my ($gh) = @_; "" }
+sub _heading { my ($gh,$level,$l) = @_; $l; }
+sub _table { my ($gh,$str) = @_; $str; }
+sub _prefix { my ($gh) = @_; }
+sub _postfix { my ($gh) = @_; }
 
 ###########################################################
 
@@ -563,7 +563,7 @@ sub _postfix { my ($gh)=@_; }
 
 package Grutatxt::HTML;
 
-@ISA=("Grutatxt");
+@ISA = ("Grutatxt");
 
 =head2 HTML Driver
 
@@ -608,13 +608,13 @@ is added to tables.
 
 sub new
 {
-	my ($class,%args)=@_;
+	my ($class,%args) = @_;
 	my ($gh);
 
 	bless(\%args,$class);
-	$gh=\%args;
+	$gh = \%args;
 
-	$gh->{'-process-urls'}=1;
+	$gh->{'-process-urls'} = 1;
 
 	return($gh);
 }
@@ -622,12 +622,12 @@ sub new
 
 sub _inline
 {
-	my ($gh,$l)=@_;
+	my ($gh,$l) = @_;
 
 	# accept unnamed and HTML inlines
 	if($l =~ /^<<$/ or $l =~ /^<<\s*html$/i)
 	{
-		$gh->{'-inline'}="HTML";
+		$gh->{'-inline'} = "HTML";
 		return;
 	}
 
@@ -646,7 +646,7 @@ sub _inline
 
 sub _escape
 {
-	my ($gh,$l)=@_;
+	my ($gh,$l) = @_;
 
 	$l =~ s/&/&amp;/g;
 	$l =~ s/</&lt;/g;
@@ -658,7 +658,7 @@ sub _escape
 
 sub _empty_line
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	return("<p>");
 }
@@ -666,9 +666,9 @@ sub _empty_line
 
 sub _url
 {
-	my ($gh,$url,$label)=@_;
+	my ($gh,$url,$label) = @_;
 
-	$label=$url unless $label;
+	$label = $url unless $label;
 
 	return("<a href=\"$url\">$label</a>");
 }
@@ -676,35 +676,35 @@ sub _url
 
 sub _strong
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 	return("<strong class=strong>$str</strong>");
 }
 
 
 sub _em
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 	return("<em class=em>$str</em>");
 }
 
 
 sub _funcname
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 	return("<code class=funcname>$str</code>");
 }
 
 
 sub _varname
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 	return("<code class=var>$str</code>");
 }
 
 
 sub _new_mode
 {
-	my ($gh,$mode,$params)=@_;
+	my ($gh,$mode,$params) = @_;
 
 	if($mode ne $gh->{'-mode'})
 	{
@@ -727,10 +727,10 @@ sub _new_mode
 		}
 
 		# send new one
-		$tag=$params ? "<$mode $params>" : "<$mode>";
+		$tag = $params ? "<$mode $params>" : "<$mode>";
 		$gh->_push($tag) if $mode;
 
-		$gh->{'-mode'}=$mode;
+		$gh->{'-mode'} = $mode;
 
 		# clean previous lists
 		$gh->{'-ul-levels'} = undef;
@@ -741,7 +741,7 @@ sub _new_mode
 
 sub _dl
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 
 	if($gh->{'dl-as-dl'})
 	{
@@ -758,23 +758,23 @@ sub _dl
 
 sub _ul
 {
-	my ($gh, $levels)=@_;
+	my ($gh, $levels) = @_;
 	my ($ret);
 
-	$ret="";
+	$ret = "";
 
 	if($levels > 0)
 	{
-		$ret="<ul>";
+		$ret = "<ul>";
 	}
 	elsif($levels < 0)
 	{
-		$ret="</ul>" x abs($levels);
+		$ret = "</ul>" x abs($levels);
 	}
 
-	$gh->{'-mode'}="ul";
+	$gh->{'-mode'} = "ul";
 
-	$ret.="<li>";
+	$ret .= "<li>";
 
 	return($ret);
 }
@@ -782,23 +782,23 @@ sub _ul
 
 sub _ol
 {
-	my ($gh, $levels)=@_;
+	my ($gh, $levels) = @_;
 	my ($ret);
 
-	$ret="";
+	$ret = "";
 
 	if($levels > 0)
 	{
-		$ret="<ol>";
+		$ret = "<ol>";
 	}
 	elsif($levels < 0)
 	{
-		$ret="</ol>" x abs($levels);
+		$ret = "</ol>" x abs($levels);
 	}
 
-	$gh->{'-mode'}="ol";
+	$gh->{'-mode'} = "ol";
 
-	$ret.="<li>";
+	$ret .= "<li>";
 
 	return($ret);
 }
@@ -806,7 +806,7 @@ sub _ol
 
 sub _blockquote
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	$gh->_new_mode("blockquote");
 	return("\"");
@@ -815,7 +815,7 @@ sub _blockquote
 
 sub _hr
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	return("<hr size=1 noshade>");
 }
@@ -823,12 +823,12 @@ sub _hr
 
 sub _heading
 {
-	my ($gh,$level,$l)=@_;
+	my ($gh,$level,$l) = @_;
 
 	# substitute anchor spaces with underscores
-	my ($a)=lc($l); $a =~ s/\s/_/g;
+	my ($a) = lc($l); $a =~ s/\s/_/g;
 
-	$l=sprintf("<a name=\"%s\"></a>\n<h%d class=level$level>%s</h%d>",
+	$l = sprintf("<a name=\"%s\"></a>\n<h%d class=level$level>%s</h%d>",
 		$a, $level+$gh->{'header-offset'},
 		$l, $level+$gh->{'header-offset'});
 
@@ -838,42 +838,42 @@ sub _heading
 
 sub _table
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 
 	if($gh->{'-mode'} eq "table")
 	{
-		my ($class)="";
-		my (@spans)=$gh->_calc_col_span($str);
+		my ($class) = "";
+		my (@spans) = $gh->_calc_col_span($str);
 
 		# calculate CSS class, if any
 		if($gh->{'class-oddeven'})
 		{
-			$class=($gh->{'-tbl-row'} & 1) ? "odd" : "even";
+			$class = ($gh->{'-tbl-row'} & 1) ? "odd" : "even";
 		}
 
-		$str="<tr $class>";
+		$str = "<tr $class>";
 
 		# build columns
-		for(my $n=0;$n < scalar(@{$gh->{'-table'}});$n++)
+		for(my $n = 0;$n < scalar(@{$gh->{'-table'}});$n++)
 		{
 			my ($i,$s);
 
-			$i=${$gh->{'-table'}}[$n];
-			$i="&nbsp;" if $i =~ /^\s*$/;
+			$i = ${$gh->{'-table'}}[$n];
+			$i = "&nbsp;" if $i =~ /^\s*$/;
 
-			$s=" colspan=$spans[$n]" if $spans[$n] > 1;
+			$s = " colspan=$spans[$n]" if $spans[$n] > 1;
 
-			if($gh->{'table-headers'} and $gh->{'-tbl-row'}==1)
+			if($gh->{'table-headers'} and $gh->{'-tbl-row'} == 1)
 			{
-				$str.="<th $class $s>$i</th>";
+				$str .= "<th $class $s>$i</th>";
 			}
 			else
 			{
-				$str.="<td $class $s>$i</td>";
+				$str .= "<td $class $s>$i</td>";
 			}
 		}
 
-		@{$gh->{'-table'}}=();
+		@{$gh->{'-table'}} = ();
 		$gh->{'-tbl-row'}++;
 	}
 	else
@@ -881,16 +881,16 @@ sub _table
 		# new table
 		my ($params);
 
-		$params="border=1";
-		$params.=" width='100\%'" if $gh->{'expand-tables'};
-		$params.=" align=center" if $gh->{'center-tables'};
-		$params.=" class=oddeven" if $gh->{'class-oddeven'};
+		$params = "border=1";
+		$params .= " width='100\%'" if $gh->{'expand-tables'};
+		$params .= " align=center" if $gh->{'center-tables'};
+		$params .= " class=oddeven" if $gh->{'class-oddeven'};
 
 		$gh->_new_mode("table", $params);
 
-		@{$gh->{'-table'}}=();
-		$gh->{'-tbl-row'}=1;
-		$str="";
+		@{$gh->{'-table'}} = ();
+		$gh->{'-tbl-row'} = 1;
+		$str = "";
 	}
 
 	return($str);
@@ -902,7 +902,7 @@ sub _table
 
 package Grutatxt::troff;
 
-@ISA=("Grutatxt");
+@ISA = ("Grutatxt");
 
 =head2 troff Driver
 
@@ -939,17 +939,17 @@ a double line).
 
 sub new
 {
-	my ($class,%args)=@_;
+	my ($class,%args) = @_;
 	my ($gh);
 
 	bless(\%args,$class);
-	$gh=\%args;
+	$gh = \%args;
 
-	$gh->{'-process-urls'}=0;
+	$gh->{'-process-urls'} = 0;
 
-	$gh->{'heading-sizes'}||=[ 20, 18, 15 ];
-	$gh->{'normal-size'}||=10;
-	$gh->{'table-type'}||="allbox"; # box, allbox, doublebox
+	$gh->{'heading-sizes'} ||= [ 20, 18, 15 ];
+	$gh->{'normal-size'} ||= 10;
+	$gh->{'table-type'} ||= "allbox"; # box, allbox, doublebox
 
 	return($gh);
 }
@@ -957,7 +957,7 @@ sub new
 
 sub _prefix
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	$gh->_push(".nr pp $gh->{'normal-size'}");
 	$gh->_push(".nh");
@@ -966,12 +966,12 @@ sub _prefix
 
 sub _inline
 {
-	my ($gh,$l)=@_;
+	my ($gh,$l) = @_;
 
 	# accept only troff inlines
 	if($l =~ /^<<\s*troff$/i)
 	{
-		$gh->{'-inline'}="troff";
+		$gh->{'-inline'} = "troff";
 		return;
 	}
 
@@ -990,7 +990,7 @@ sub _inline
 
 sub _escape
 {
-	my ($gh,$l)=@_;
+	my ($gh,$l) = @_;
 
 	$l =~ s/\\/\\\\/g;
 	$l =~ s/^'/\\&'/;
@@ -1001,7 +1001,7 @@ sub _escape
 
 sub _empty_line
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	return(".lp");
 }
@@ -1009,35 +1009,35 @@ sub _empty_line
 
 sub _strong
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 	return("\\fB$str\\fP");
 }
 
 
 sub _em
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 	return("\\fI$str\\fP");
 }
 
 
 sub _funcname
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 	return("\\fB$str\\fP");
 }
 
 
 sub _varname
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 	return("\\fI$str\\fP");
 }
 
 
 sub _new_mode
 {
-	my ($gh,$mode,$params)=@_;
+	my ($gh,$mode,$params) = @_;
 
 	if($mode ne $gh->{'-mode'})
 	{
@@ -1052,8 +1052,8 @@ sub _new_mode
 		{
 			chomp($gh->{'-table-head'});
 			$gh->{'-table-head'} =~ s/\s+$//;
-			$gh->_push($gh->{'-table-head'}.".");
-			$gh->_push($gh->{'-table-body'}.".TE\n.sp 0.6");
+			$gh->_push($gh->{'-table-head'} . ".");
+			$gh->_push($gh->{'-table-body'} . ".TE\n.sp 0.6");
 		}
 		elsif($gh->{'-mode'} eq "blockquote")
 		{
@@ -1070,14 +1070,14 @@ sub _new_mode
 			$gh->_push(".(q");
 		}
 
-		$gh->{'-mode'}=$mode;
+		$gh->{'-mode'} = $mode;
 	}
 }
 
 
 sub _dl
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 
 	$gh->_new_mode("dl");
 	return(".ip \"$str\"\n");
@@ -1086,7 +1086,7 @@ sub _dl
 
 sub _ul
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	$gh->_new_mode("ul");
 	return(".bu\n");
@@ -1095,7 +1095,7 @@ sub _ul
 
 sub _ol
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	$gh->_new_mode("ol");
 	return(".np\n");
@@ -1104,7 +1104,7 @@ sub _ol
 
 sub _blockquote
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	$gh->_new_mode("blockquote");
 	return("\"");
@@ -1113,7 +1113,7 @@ sub _blockquote
 
 sub _hr
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	return(".hl");
 }
@@ -1121,9 +1121,9 @@ sub _hr
 
 sub _heading
 {
-	my ($gh,$level,$l)=@_;
+	my ($gh,$level,$l) = @_;
 
-	$l=".sz ".${$gh->{'heading-sizes'}}[$level - 1]."\n$l\n.sp 0.6";
+	$l = ".sz " . ${$gh->{'heading-sizes'}}[$level - 1] . "\n$l\n.sp 0.6";
 
 	return($l);
 }
@@ -1131,50 +1131,50 @@ sub _heading
 
 sub _table
 {
-	my ($gh,$str)=@_;
+	my ($gh,$str) = @_;
 
 	if($gh->{'-mode'} eq "table")
 	{
 		my ($h,$b);
-		my (@spans)=$gh->_calc_col_span($str);
+		my (@spans) = $gh->_calc_col_span($str);
 
 		# build columns
-		$h="";
-		$b="";
-		for(my $n=0;$n < scalar(@{$gh->{'-table'}});$n++)
+		$h = "";
+		$b = "";
+		for(my $n = 0;$n < scalar(@{$gh->{'-table'}});$n++)
 		{
 			my ($i);
 
-			if($gh->{'table-headers'} and $gh->{'-tbl-row'}==1)
+			if($gh->{'table-headers'} and $gh->{'-tbl-row'} == 1)
 			{
-				$h.="cB ";
+				$h .= "cB ";
 			}
 			else
 			{
-				$h.="l ";
+				$h .= "l ";
 			}
 
 			# add span columns
-			$h.="s " x ($spans[$n] - 1) if $spans[$n] > 1;
+			$h .= "s " x ($spans[$n] - 1) if $spans[$n] > 1;
 
-			$b.="#" if $n;
+			$b .= "#" if $n;
 
-			$i=${$gh->{'-table'}}[$n];
+			$i = ${$gh->{'-table'}}[$n];
 			$i =~ s/^\s+//;
 			$i =~ s/\s+$//;
 			$i =~ s/(\s)+/$1/g;
-			$b.=$i;
+			$b .= $i;
 		}
 
 		# add a separator
-		$b.="\n_" if $gh->{'table-headers'} and
-			     $gh->{'-tbl-row'}==1 and
+		$b .= "\n_" if $gh->{'table-headers'} and
+			     $gh->{'-tbl-row'} == 1 and
 			     $gh->{'table-type'} ne "allbox";
 
-		$gh->{'-table-head'}.="$h\n";
-		$gh->{'-table-body'}.="$b\n";
+		$gh->{'-table-head'} .= "$h\n";
+		$gh->{'-table-body'} .= "$b\n";
 
-		@{$gh->{'-table'}}=();
+		@{$gh->{'-table'}} = ();
 		$gh->{'-tbl-row'}++;
 	}
 	else
@@ -1182,21 +1182,21 @@ sub _table
 		# new table
 		$gh->_new_mode("table");
 
-		@{$gh->{'-table'}}=();
-		$gh->{'-tbl-row'}=1;
+		@{$gh->{'-table'}} = ();
+		$gh->{'-tbl-row'} = 1;
 
-		$gh->{'-table-head'}=".TS\n$gh->{'table-type'} tab (#);\n";
-		$gh->{'-table-body'}="";
+		$gh->{'-table-head'} = ".TS\n$gh->{'table-type'} tab (#);\n";
+		$gh->{'-table-body'} = "";
 	}
 
-	$str="";
+	$str = "";
 	return($str);
 }
 
 
 sub _postfix
 {
-	my ($gh)=@_;
+	my ($gh) = @_;
 
 	# add to top headings and footers
 	unshift(@{$gh->{'o'}},".ef '\%' ''");
