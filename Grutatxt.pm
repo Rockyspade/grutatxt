@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION='2.0.4';
+$VERSION='2.0.5m';
 
 =pod
 
@@ -282,7 +282,7 @@ sub process
 		#
 
 		# definition list
-		if($l =~ s/^\s\*\s+([\w\s\-]+)\:\s+/$gh->_dl($1)/e)
+		if($l =~ s/^\s\*\s+([\w\s\-\(\)]+)\:\s+/$gh->_dl($1)/e)
 		{
 		}
 
