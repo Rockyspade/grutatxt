@@ -73,11 +73,13 @@ apostrophes ('''this way''') and italics with two (''this way''). If you ever
 used a WikiWikiWeb system you'll be familiar with these ones.
 
 Other special text is automatically recognized, as URLs (so the URL
-http://www.triptico.com should be clickable). Grutatxt can also be useful
-documenting source code, as function names like printf() or variables like
-$username are also highlighted. There are command line arguments to make
-the parenthesis and / or leading dollar to disappear from the output
-document.
+http://www.triptico.com should be clickable). Text beginning with ./ is
+interpreted as relative URLs, so ./index.html should also be clickable.
+
+Grutatxt can also be useful when documenting source code, as function names
+like printf() or variables like $username are also highlighted. There are
+command line arguments to make the parenthesis and / or leading dollar to
+disappear from the output document.
 
 URLs are simply substituted as shown above; if an URL is followed by a
 phrase surrounded by parentheses (just like you naturally would do to
