@@ -289,6 +289,9 @@ sub process
 		$l =~ s/\b_(\S[^_]*\S)_\b/$gh->_em($1)/ge;
 		$l =~ s/\b_(\S+)_\b/$gh->_em($1)/ge;
 
+		# change `text' into code
+		$l =~ s/`([^\']*)\'/$gh->_code($1)/ge;
+
 		# enclose function names
 		if($gh->{'strip-parens'})
 		{
@@ -584,6 +587,7 @@ sub _empty_line { my ($gh) = @_; ""; }
 sub _url { my ($gh,$url,$label) = @_; ""; }
 sub _strong { my ($gh,$str) = @_; $str; }
 sub _em { my ($gh,$str) = @_; $str; }
+sub _code { my ($gh,$str) = @_; $str; }
 sub _funcname { my ($gh,$str) = @_; $str; }
 sub _varname { my ($gh,$str) = @_; $str; }
 sub _new_mode { my ($gh,$mode) = @_; }
@@ -730,6 +734,13 @@ sub _em
 {
 	my ($gh,$str) = @_;
 	return("<em class='em'>$str</em>");
+}
+
+
+sub _code
+{
+	my ($gh,$str) = @_;
+	return("<code class='literal'>$str</code>");
 }
 
 
@@ -1068,6 +1079,13 @@ sub _strong
 
 
 sub _em
+{
+	my ($gh,$str) = @_;
+	return("\\fI$str\\fP");
+}
+
+
+sub _code
 {
 	my ($gh,$str) = @_;
 	return("\\fI$str\\fP");
@@ -1598,6 +1616,7 @@ sub _escape_post
 
 	$l =~ s/ # / \\# /g;
 	$l =~ s/^\\n$//g;
+	$l =~ s/([^\s_])_([^\s_])/$1\\_$2/g;
 
 	return($l);
 }
@@ -1622,6 +1641,13 @@ sub _em
 {
 	my ($gh,$str) = @_;
 	return("\\emph{$str}");
+}
+
+
+sub _code
+{
+	my ($gh,$str) = @_;
+	return("{\\tt $str}");
 }
 
 

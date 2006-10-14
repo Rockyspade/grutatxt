@@ -82,7 +82,9 @@ interpreted as relative URLs, so ./index.html should also be clickable.
 Grutatxt can also be useful when documenting source code, as function names
 like printf() or variables like $username are also highlighted. There are
 command line arguments to make the parenthesis and / or leading dollar to
-disappear from the output document.
+disappear from the output document. Other than the function names and
+variables, inline literal texts can be marked up surrounding the text
+with a backtick and apostrophe (`like this').
 
 URLs are simply substituted as shown above; if an URL is followed by a
 phrase surrounded by parentheses (just like you naturally would do to
@@ -211,8 +213,8 @@ Tables
 ------
 
 But where Grutatxt is really awesome is rendering tables. They are created
-using the + (plus) sign for corners, the - (hyphen) for horizontal lines
-and the | (pipe) for vertical lines. So this is a table:
+using the `+' (plus) sign for corners, the `-' (hyphen) for horizontal lines
+and the `|' (pipe) for vertical lines. So this is a table:
 
 +----------------+----------------------+-----------+
 | Band Name      | Album Name           | Number of |
@@ -230,10 +232,10 @@ and the | (pipe) for vertical lines. So this is a table:
 
 As you can see, cells with long text inside can span several lines of
 physical text, provided that you delimit table rows with a new line
-containing only + and - symbols.
+containing only `+' and `-' symbols.
 
 A column can also span several ones, just by marking the intersections
-with | (pipe) instead of + (plus). Look in this example how it's done:
+with `|' (pipe) instead of `+' (plus). Look in this example how it's done:
 
 +-----------+-------------+-------------+-----------+
 | Head 1    | Head 2      | Head 3      | Head 4    |
