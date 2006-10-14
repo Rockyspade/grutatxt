@@ -9,7 +9,7 @@ None!
 Open Bugs
 ---------
 
-None!
+ * 1009: Troff mode multiple-level lists don't work.
 
 Pending Enhancements
 --------------------
@@ -20,6 +20,7 @@ Pending Enhancements
  * 1003: Add a docbook driver.
  * 1004: New markup for footnotes.
  * 1005: Add a xhtml driver.
+ * 1010: Add a TOC.
 
 Closed
 ------
