@@ -6,6 +6,7 @@ MANIFEST
 Makefile.PL
 Grutatxt.pm
 README
+RELEASE_NOTES
 grutatxt
 grutatxt.1
 TODO
