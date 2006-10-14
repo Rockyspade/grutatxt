@@ -63,12 +63,31 @@ Don't generate <html><body>...
 \fB\-dl\fR
 Use real <dl>, <dd> and <dt>
 instead of tables in definition lists.
+.TP
+\fB\-\-encoding\fR=\fIENCODING\fR
+Character encoding (default: iso-8859-1)
 .PP
 troff options:
 .TP
 \fB\-\-table\-type\fR=\fITYPE\fR
 Table type. Possible values:
 box, allbox, doublebox (default allbox)
+.PP
+man options:
+.TP
+\fB\-s\fR|--man-section=\fISECTION\fR
+Man page section (default: 1)
+.PP
+LaTeX options:
+.TP
+\fB\-\-docclass\fR=\fICLASS\fR
+Document class (default: report)
+.TP
+\fB\-\-papersize\fR=\fISIZE\fR
+Paper size (default: a4paper)
+.TP
+\fB\-\-encoding\fR=\fIENCODING\fR
+Character encoding (default: latin1)
 .SH "INPUT FILE SYNTAX"
 .nf
 Text paragraphs
