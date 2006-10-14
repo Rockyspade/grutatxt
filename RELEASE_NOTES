@@ -1,0 +1,13 @@
+Grutatxt Release Notes
+======================
+
+2.0.12
+------
+
+ * New markup for monospaced text / inline code, by enclosing text
+   between a backtick and an apostrophe.
+ * The command line utility now includes an option to set the HTML
+   charset encoding (with a default of iso-8859-1).
+ * The LaTeX driver now includes an option to change tabs into spaces.
+ * Fixed a bug in the man page driver, that made extra indentations
+   appear on blank lines.
