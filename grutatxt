@@ -139,7 +139,7 @@ unless($no_body)
 	print O "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"\n";
 	print O " 	\"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
 	print O "<html><head>\n";
-	print O "<meta http-equiv='Content-Type' content='text/html; charset='" .
+	print O "<meta http-equiv='Content-Type' content='text/html; charset=" .
 		($encoding || 'iso-8859-1') . "'>\n";
 	print O "<title>$title</title>\n";
 
