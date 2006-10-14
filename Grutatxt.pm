@@ -515,6 +515,9 @@ sub _pre
 	}
 	else
 	{
+		# tabs to spaces if a non-zero tabsize is given (only in LaTex)
+		$l =~ s/\t/' ' x $gh->{'tabsize'}/ge if $gh->{'tabsize'} > 0;
+
 		$gh->_new_mode("pre");
 	}
 
