@@ -2,3 +2,5 @@ Angel Ortega - Main coding
 Kei - Man page and URL improvements
 Geoffrey Plitt - Apache handler documentation
 Vincent Stemen - Bugfixes
+Recai Oktas - Man page bugfixes, inline code markup,
+	tabs-to-spaces in LaTEX mode

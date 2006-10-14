@@ -62,6 +62,9 @@ $abstract = 0;
 # man page section
 $man_section = 1;
 
+# default tab size in LaTeX mode
+$tabsize = 8;
+
 #####################################################################
 
 # parse options
@@ -75,6 +78,7 @@ if(!GetOptions( "i|input=s"		=>	\$input_file,
 		"ct|center-tables"	=>	\$center_tables,
 		"xt|expand-tables"	=>	\$expand_tables,
 		"sp|strip-parens"	=>	\$strip_parens,
+		"ts|tabsize=s"          =>      \$tabsize,
 		"nb|no-body"		=>	\$no_body,
 		"v|version"		=>	\$version,
 		"h|help"		=>	\$usage,
@@ -102,6 +106,9 @@ close I;
 
 $content_title = "";
 
+# make tab to space conversion only in LaTeX mode
+$tabsize = 0 unless $mode =~ /^latex$/i;
+
 $grutatxt = new Grutatxt(
 		"mode"		=> $mode,
 		"header-offset" => $header_offset,
@@ -110,6 +117,7 @@ $grutatxt = new Grutatxt(
 		"expand-tables" => $expand_tables,
 		"strip-parens"	=> $strip_parens,
 		"strip-dollars" => $strip_dollars,
+		"tabsize"       => $tabsize,
 		"dl-as-dl"	=> $dl_as_dl,
 		"table-type"	=> $table_type,
 		"title" 	=> \$content_title,
@@ -221,6 +229,8 @@ sub usage
 	print "    --docclass=CLASS           Document class (default: report)\n";
 	print "    --papersize=SIZE           Paper size (default: a4paper)\n";
 	print "    --encoding=ENCODING        Character encoding (default: latin1)\n";
+	print "    -ts|--tabsize=NUMBER       Tab size for tab to space conversions in\n";
+	print "                               LaTeX verbatim environment (default: 8)\n";
 
 	exit(0);
 }
