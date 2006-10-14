@@ -29,7 +29,7 @@ use Getopt::Long;
 use locale;
 use Grutatxt;
 
-$VERSION = $Grutatxt::VERSION . ":1";
+$VERSION = $Grutatxt::VERSION . ":2";
 
 # input file
 $input_file = "-";
@@ -100,6 +100,15 @@ if($version)
 
 open I, $input_file or die "Can't open $input_file: $!";
 open O, ">$output_file" or die "Can't create $output_file: $!";
+
+# if utf8 encoding is wanted, set the filehandles as utf8
+# so that regular expressions match all characters
+# (this is crap)
+if(defined($encoding) && $encoding =~ /^utf-?8/i)
+{
+	binmode(I, ":utf8");
+	binmode(O, ":utf8");
+}
 
 $content = join("",<I>);
 close I;
