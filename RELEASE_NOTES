@@ -1,6 +1,11 @@
 Grutatxt Release Notes
 ======================
 
+2.0.13
+------
+
+ * Fixed sporadic hungups that happened under UTF-8 locales.
+
 2.0.12
 ------
 

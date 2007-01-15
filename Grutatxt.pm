@@ -2,7 +2,7 @@
 #
 #   Grutatxt - A text to HTML (and other things) converter
 #
-#   Copyright (C) 2000/2006 Angel Ortega <angel@triptico.com>
+#   Copyright (C) 2000/2007 Angel Ortega <angel@triptico.com>
 #
 #   This program is free software; you can redistribute it and/or
 #   modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.13-svn';
+$VERSION = '2.0.13';
 
 =pod
 
