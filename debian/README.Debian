@@ -1,0 +1,8 @@
+grutatxt for Debian
+-------------------
+
+	The original name of this package is "Grutatxt" (ie., the first letter
+	in caps), but due to Debian's naming restrictions it's been changed to
+	"grutatxt".
+
+ -- Roberto Suarez Soto <turgon@debian.org>, Thu,  2 Nov 2006 13:02:44 +0100

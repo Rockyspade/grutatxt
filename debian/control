@@ -1,0 +1,16 @@
+Source: grutatxt
+Section: text
+Priority: optional
+Maintainer: Roberto Suarez Soto <turgon@debian.org>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: grutatxt
+Architecture: any
+Depends: perl
+Description: text to HTML converter
+ Grutatxt is a plain text to HTML (and now other formats)
+ converter. It successfully converts subtle text markup to lists,
+ bold, italics, tables and headings to their corresponding HTML,
+ troff, man page or LaTeX markup without having to write
+ unreadable source text files.
