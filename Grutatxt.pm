@@ -1508,7 +1508,7 @@ sub _inline
 		return;
 	}
 
-	if ($gh->{'-inline'} eq 'troff') {
+	if ($gh->{'-inline'} eq 'latex') {
 		$gh->_push($l);
 	}
 }
