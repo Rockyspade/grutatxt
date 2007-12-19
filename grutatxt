@@ -29,32 +29,32 @@ use Getopt::Long;
 use locale;
 use Grutatxt;
 
-$VERSION = $Grutatxt::VERSION . ":1";
+$VERSION = $Grutatxt::VERSION . ':1';
 
 # input file
-$input_file = "-";
+$input_file = '-';
 
 # output file
-$output_file = ">-";
+$output_file = '>-';
 
 # CSS information
-$css = "";
+$css = '';
 $embed_css = 0;
 
 # page title
-$title = "";
+$title = '';
 
 # offset for the h? headers
 $header_offset = 0;
 
 # default mode
-$mode = "HTML";
+$mode = 'HTML';
 
 # use real dl
 $dl_as_dl = 0;
 
 # troff table type
-$table_type = "allbox";
+$table_type = 'allbox';
 
 # abstract line number
 $abstract = 0;
@@ -68,33 +68,31 @@ $tabsize = 8;
 #####################################################################
 
 # parse options
-if(!GetOptions( "i|input=s"		=>	\$input_file,
-		"o|output=s"		=>	\$output_file,
-		"c|css=s"		=>	\$css,
-		"e|embed-css"		=>	\$embed_css,
-		"t|title=s"		=>	\$title,
-		"f|header-offset=s"	=>	\$header_offset,
-		"b|table-headers"	=>	\$table_headers,
-		"ct|center-tables"	=>	\$center_tables,
-		"xt|expand-tables"	=>	\$expand_tables,
-		"sp|strip-parens"	=>	\$strip_parens,
-		"ts|tabsize=s"          =>      \$tabsize,
-		"nb|no-body"		=>	\$no_body,
-		"v|version"		=>	\$version,
-		"h|help"		=>	\$usage,
-		"m|mode=s"		=>	\$mode,
-		"s|man-section=s"	=>	\$man_section,
-		"docclass=s"		=>	\$latex_docclass,
-		"papersize=s"		=>	\$papersize,
-		"encoding=s"		=>	\$encoding,
-		"dl"			=>	\$dl_as_dl)
-	      or $usage)
-{
+if (!GetOptions('i|input=s'		=>	\$input_file,
+		'o|output=s'		=>	\$output_file,
+		'c|css=s'		=>	\$css,
+		'e|embed-css'		=>	\$embed_css,
+		't|title=s'		=>	\$title,
+		'f|header-offset=s'	=>	\$header_offset,
+		'b|table-headers'	=>	\$table_headers,
+		'ct|center-tables'	=>	\$center_tables,
+		'xt|expand-tables'	=>	\$expand_tables,
+		'sp|strip-parens'	=>	\$strip_parens,
+		'ts|tabsize=s'          =>      \$tabsize,
+		'nb|no-body'		=>	\$no_body,
+		'v|version'		=>	\$version,
+		'h|help'		=>	\$usage,
+		'm|mode=s'		=>	\$mode,
+		's|man-section=s'	=>	\$man_section,
+		'docclass=s'		=>	\$latex_docclass,
+		'papersize=s'		=>	\$papersize,
+		'encoding=s'		=>	\$encoding,
+		'dl'			=>	\$dl_as_dl)
+	      or $usage) {
 	usage();
 }
 
-if($version)
-{
+if ($version) {
 	print "$VERSION\n"; exit(0);
 }
 
@@ -104,38 +102,37 @@ open O, ">$output_file" or die "Can't create $output_file: $!";
 # if utf8 encoding is wanted, set the filehandles as utf8
 # so that regular expressions match all characters
 # (this is crap)
-if(defined($encoding) && $encoding =~ /^utf-?8/i)
-{
+if (defined($encoding) && $encoding =~ /^utf-?8/i) {
 	binmode(I, ":utf8");
 	binmode(O, ":utf8");
 }
 
-$content = join("",<I>);
+$content = join('',<I>);
 close I;
 
-$content_title = "";
+$content_title = '';
 
 # make tab to space conversion only in LaTeX mode
 $tabsize = 0 unless $mode =~ /^latex$/i;
 
 $grutatxt = new Grutatxt(
-		"mode"		=> $mode,
-		"header-offset" => $header_offset,
-		"table-headers" => $table_headers,
-		"center-tables" => $center_tables,
-		"expand-tables" => $expand_tables,
-		"strip-parens"	=> $strip_parens,
-		"strip-dollars" => $strip_dollars,
-		"tabsize"       => $tabsize,
-		"dl-as-dl"	=> $dl_as_dl,
-		"table-type"	=> $table_type,
-		"title" 	=> \$content_title,
-		"abstract"	=> \$abstract,
-		"page-name"	=> $title,
-		"section"	=> $man_section,
-		"docclass"	=> $latex_docclass,
-		"papersize"	=> $papersize,
-		"encoding"	=> $encoding
+		'mode'		=> $mode,
+		'header-offset' => $header_offset,
+		'table-headers' => $table_headers,
+		'center-tables' => $center_tables,
+		'expand-tables' => $expand_tables,
+		'strip-parens'	=> $strip_parens,
+		'strip-dollars' => $strip_dollars,
+		'tabsize'       => $tabsize,
+		'dl-as-dl'	=> $dl_as_dl,
+		'table-type'	=> $table_type,
+		'title' 	=> \$content_title,
+		'abstract'	=> \$abstract,
+		'page-name'	=> $title,
+		'section'	=> $man_section,
+		'docclass'	=> $latex_docclass,
+		'papersize'	=> $papersize,
+		'encoding'	=> $encoding
 		);
 
 @result = $grutatxt->process($content);
@@ -143,8 +140,7 @@ $grutatxt = new Grutatxt(
 $title = $content_title unless $title;
 $no_body = 1 unless $mode =~ /^html$/i;
 
-unless($no_body)
-{
+unless ($no_body) {
 	print O "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"\n";
 	print O " 	\"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
 	print O "<html><head>\n";
@@ -154,12 +150,9 @@ unless($no_body)
 
 	printf O "<!-- converted from text by grutatxt $VERSION on %s -->\n", scalar(localtime);
 
-	if($css)
-	{
-		if($embed_css)
-		{
-			if(open C, $css)
-			{
+	if ($css) {
+		if ($embed_css) {
+			if (open C, $css) {
 				my ($c) = join('', <C>);
 				close C;
 
@@ -167,13 +160,11 @@ unless($no_body)
 				print O $c . "\n";
 				print O "</style>\n";
 			}
-			else
-			{
+			else {
 				die "Can't open '$css' CSS file.";
 			}
 		}
-		else
-		{
+		else {
 			print O "<link rel=StyleSheet href='$css' type='text/css'>";
 		}
 	}
@@ -181,8 +172,7 @@ unless($no_body)
 	print O "</head><body>\n";
 }
 
-foreach my $l (@result)
-{
+foreach my $l (@result) {
 	print O "$l\n";
 }
 
