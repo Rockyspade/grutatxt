@@ -65,6 +65,9 @@ $man_section = 1;
 # default tab size in LaTeX mode
 $tabsize = 8;
 
+# avoid time signature
+$no_time_sig = 0;
+
 #####################################################################
 
 # parse options
@@ -87,7 +90,8 @@ if (!GetOptions('i|input=s'		=>	\$input_file,
 		'docclass=s'		=>	\$latex_docclass,
 		'papersize=s'		=>	\$papersize,
 		'encoding=s'		=>	\$encoding,
-		'dl'			=>	\$dl_as_dl)
+		'dl'			=>	\$dl_as_dl,
+		'no-time-sig'		=>	\$no_time_sig)
 	      or $usage) {
 	usage();
 }
@@ -148,7 +152,8 @@ unless ($no_body) {
 		($encoding || 'iso-8859-1') . "'>\n";
 	print O "<title>$title</title>\n";
 
-	printf O "<!-- converted from text by grutatxt $VERSION on %s -->\n", scalar(localtime);
+	printf O "<!-- converted from text by grutatxt $VERSION on %s -->\n", scalar(localtime)
+		unless $no_time_sig;
 
 	if ($css) {
 		if ($embed_css) {
@@ -205,6 +210,7 @@ sub usage
 	print "    -m|--mode=[HTML|troff|man|latex]\n";
 	print "                               Output mode: HTML, troff, man or latex\n";
 	print "                               (default: HTML)\n";
+	print "    --no-time-sig              Avoid time signature in HTML comment\n";
 	print "HTML options:\n\n";
 	print "    -c|--css=CSS_URL_OR_FILE   CSS URL (or file if using --embed-css)\n";
 	print "    -e|--embed-css             Embed CSS instead of linking to it\n";
