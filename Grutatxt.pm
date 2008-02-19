@@ -686,42 +686,42 @@ sub _url
 
 	$label = $url unless $label;
 
-	return "<a href=\"$url\">$label</a>";
+	return "<a href = '$url'>$label</a>";
 }
 
 
 sub _strong
 {
 	my ($gh, $str) = @_;
-	return "<strong class='strong'>$str</strong>";
+	return "<strong>$str</strong>";
 }
 
 
 sub _em
 {
 	my ($gh, $str) = @_;
-	return "<em class='em'>$str</em>";
+	return "<em>$str</em>";
 }
 
 
 sub _code
 {
 	my ($gh, $str) = @_;
-	return "<code class='literal'>$str</code>";
+	return "<code class = 'literal'>$str</code>";
 }
 
 
 sub _funcname
 {
 	my ($gh, $str) = @_;
-	return "<code class='funcname'>$str</code>";
+	return "<code class = 'funcname'>$str</code>";
 }
 
 
 sub _varname
 {
 	my ($gh, $str) = @_;
-	return "<code class='var'>$str</code>";
+	return "<code class = 'var'>$str</code>";
 }
 
 
@@ -764,11 +764,11 @@ sub _dl
 
 	if ($gh->{'dl-as-dl'}) {
 		$gh->_new_mode('dl');
-		$ret .= "<dt><strong class='term'>$str</strong><dd>";
+		$ret .= "<dt><strong class = 'term'>$str</strong><dd>";
 	}
 	else {
 		$gh->_new_mode('table');
-		$ret .= "<tr><td valign='top'><strong class='term'>$1</strong>&nbsp;&nbsp;</td><td valign='top'>";
+		$ret .= "<tr><td valign = 'top'><strong class = 'term'>$1</strong>&nbsp;&nbsp;</td><td valign = 'top'>";
 	}
 
 	return $ret;
@@ -832,7 +832,7 @@ sub _hr
 {
 	my ($gh) = @_;
 
-	return "<hr size='1' noshade='noshade'>";
+	return "<hr size = '1' noshade = 'noshade'>";
 }
 
 
@@ -847,7 +847,7 @@ sub _heading
 	$a =~ s/\s/_/g;
 	$a =~ s/<[^>]+>//g;
 
-	$l = sprintf("<a name='%s'></a>\n<h%d class='level$level'>%s</h%d>",
+	$l = sprintf("<a name = '%s'></a>\n<h%d class = 'level$level'>%s</h%d>",
 		$a, $level+$gh->{'header-offset'},
 		$l, $level+$gh->{'header-offset'});
 
@@ -865,7 +865,7 @@ sub _table
 
 		# calculate CSS class, if any
 		if ($gh->{'class-oddeven'}) {
-			$class = "class='" . ($gh->{'-tbl-row'} & 1) ? "odd'" : "even'";
+			$class = "class = '" . ($gh->{'-tbl-row'} & 1) ? "odd'" : "even'";
 		}
 
 		$str = "<tr $class>";
@@ -877,7 +877,7 @@ sub _table
 			$i = ${$gh->{'-table'}}[$n];
 			$i = "&nbsp;" if $i =~ /^\s*$/;
 
-			$s = " colspan='$spans[$n]'" if $spans[$n] > 1;
+			$s = " colspan = '$spans[$n]'" if $spans[$n] > 1;
 
 			if ($gh->{'table-headers'} and $gh->{'-tbl-row'} == 1) {
 				$str .= "<th $class $s>$i</th>";
@@ -896,10 +896,10 @@ sub _table
 		# new table
 		my ($params);
 
-		$params = "border='1'";
-		$params .= " width='100\%'" if $gh->{'expand-tables'};
-		$params .= " align='center'" if $gh->{'center-tables'};
-		$params .= " class='oddeven'" if $gh->{'class-oddeven'};
+		$params = "border = '1'";
+		$params .= " width = '100\%'" if $gh->{'expand-tables'};
+		$params .= " align = 'center'" if $gh->{'center-tables'};
+		$params .= " class = 'oddeven'" if $gh->{'class-oddeven'};
 
 		$gh->_new_mode('table', $params);
 
