@@ -686,7 +686,7 @@ sub _url
 
 	$label = $url unless $label;
 
-	return "<a href = '$url'>$label</a>";
+	return "<a href = \"$url\">$label</a>";
 }
 
 
