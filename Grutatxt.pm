@@ -734,10 +734,10 @@ sub _new_mode
 
 		# clean list levels
 		if ($gh->{'-mode'} eq 'ul') {
-			$gh->_push('</ul>' x scalar(@{$gh->{'-ul-levels'}}));
+			$gh->_push($gh->{_open_li} . '</ul>' x scalar(@{$gh->{'-ul-levels'}}));
 		}
 		elsif ($gh->{'-mode'} eq 'ol') {
-			$gh->_push('</ol>' x scalar(@{$gh->{'-ol-levels'}}));
+			$gh->_push($gh->{_open_li} . '</ol>' x scalar(@{$gh->{'-ol-levels'}}));
 		}
 		elsif ($gh->{'-mode'}) {
 			$gh->_push("</$gh->{'-mode'}>");
@@ -780,7 +780,12 @@ sub _ul
 	my ($gh, $levels) = @_;
 	my ($ret);
 
-	$ret = '';
+	if ($gh->{'-mode'} ne 'ul') {
+		$gh->{_open_li} = '';
+	}
+
+	$ret = $gh->{_open_li};
+	$gh->{_open_li} = '</li>';
 
 	if ($levels > 0) {
 		$ret .= '<ul>';
@@ -802,13 +807,18 @@ sub _ol
 	my ($gh, $levels) = @_;
 	my ($ret);
 
-	$ret = '';
+	if ($gh->{'-mode'} ne 'ol') {
+		$gh->{_open_li} = '';
+	}
+
+	$ret = $gh->{_open_li};
+	$gh->{_open_li} = '</li>';
 
 	if ($levels > 0) {
-		$ret = '<ol>';
+		$ret .= '<ol>';
 	}
 	elsif ($levels < 0) {
-		$ret = '</ol>' x abs($levels);
+		$ret .= '</ol>' x abs($levels);
 	}
 
 	$gh->{'-mode'} = 'ol';
