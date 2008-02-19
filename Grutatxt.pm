@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.13';
+$VERSION = '2.0.14-dev';
 
 =pod
 
@@ -306,7 +306,7 @@ sub process
 		#
 
 		# definition list
-		if ($l =~ /^\s\*\s+/ && $l =~ s/^\s\*\s+([\w\s\-\(\)]+)\:\s+/$gh->_dl($1)/e) {
+		if ($l =~ /^\s\*\s+/ && $l =~ s/^\s\*\s+([^:\.,;]+)\:\s+/$gh->_dl($1)/e) {
 			$gh->{'-mode-elems'} ++;
 		}
 
