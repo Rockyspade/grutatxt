@@ -734,7 +734,7 @@ sub _new_mode
 
 		# clean list levels
 		if ($gh->{'-mode'} eq 'ul') {
-			$gh->_push('</ul>' x scalar(@{$gh->{'-ul-levels'}}));
+			$gh->_push('</li>' . '</ul>' x scalar(@{$gh->{'-ul-levels'}}));
 		}
 		elsif ($gh->{'-mode'} eq 'ol') {
 			$gh->_push('</li>' . '</ol>' x scalar(@{$gh->{'-ol-levels'}}));
@@ -786,10 +786,15 @@ sub _ul
 		$ret .= '<ul>';
 	}
 	elsif ($levels < 0) {
-		$ret .= '</ul>' x abs($levels);
+		$ret .= '</li></ul>' x abs($levels);
 	}
 
-	$gh->{'-mode'} = 'ul';
+	if ($gh->{'-mode'} ne 'ul') {
+		$gh->{'-mode'} = 'ul';
+	}
+	else {
+		$ret .= '</li>' if $levels <= 0;
+	}
 
 	$ret .= '<li>';
 
