@@ -737,7 +737,7 @@ sub _new_mode
 			$gh->_push('</ul>' x scalar(@{$gh->{'-ul-levels'}}));
 		}
 		elsif ($gh->{'-mode'} eq 'ol') {
-			$gh->_push('</ol>' x scalar(@{$gh->{'-ol-levels'}}));
+			$gh->_push('</li>' . '</ol>' x scalar(@{$gh->{'-ol-levels'}}));
 		}
 		elsif ($gh->{'-mode'}) {
 			$gh->_push("</$gh->{'-mode'}>");
@@ -805,13 +805,18 @@ sub _ol
 	$ret = '';
 
 	if ($levels > 0) {
-		$ret = '<ol>';
+		$ret .= '<ol>';
 	}
 	elsif ($levels < 0) {
-		$ret = '</ol>' x abs($levels);
+		$ret .= '</li></ol>' x abs($levels);
 	}
 
-	$gh->{'-mode'} = 'ol';
+	if ($gh->{'-mode'} ne 'ol') {
+		$gh->{'-mode'} = 'ol';
+	}
+	else {
+		$ret .= '</li>' if $levels <= 0;
+	}
 
 	$ret .= '<li>';
 
