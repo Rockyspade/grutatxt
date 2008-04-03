@@ -4,8 +4,7 @@ Grutatxt TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1011: Create a ./test.pl script.
- * 1012: Update to a more standard HTML.
+None!
 
 Open Bugs
 ---------
@@ -22,6 +21,7 @@ Pending Enhancements
  * 1004: New markup for footnotes.
  * 1005: Add a xhtml driver.
  * 1010: Add a TOC.
+ * 1011: Create a ./test.pl script.
 
 Closed
 ------
@@ -32,6 +32,7 @@ Closed
    rules. (This is because paragraph separators are empty lines).
    (Sat, 29 Jan 2005 12:01:07 +0100).
  * 1007: Add a latex driver (Sat, 29 Jan 2005 12:01:07 +0100).
-
+ * 1012: Update to a more standard HTML
+   (Thu, 03 Apr 2008 13:02:52 +0200).
 
 Email bugs to angel@triptico.com
