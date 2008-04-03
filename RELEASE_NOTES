@@ -1,6 +1,11 @@
 Grutatxt Release Notes
 ======================
 
+2.0.14
+------
+
+ * More proper closing of `li' elements in HTML output.
+
 2.0.13
 ------
 
