@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.14-dev';
+$VERSION = '2.0.14';
 
 =pod
 
