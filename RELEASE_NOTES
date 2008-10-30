@@ -1,6 +1,12 @@
 Grutatxt Release Notes
 ======================
 
+2.0.15
+------
+
+ * New parameter `url-label-max' to the HTML driver to set
+   a maximum size for URLs.
+
 2.0.14
 ------
 

@@ -2,7 +2,7 @@
 #
 #   Grutatxt - A text to HTML (and other things) converter
 #
-#   Copyright (C) 2000/2007 Angel Ortega <angel@triptico.com>
+#   Copyright (C) 2000/2008 Angel Ortega <angel@triptico.com>
 #
 #   This program is free software; you can redistribute it and/or
 #   modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.14';
+$VERSION = '2.0.15-dev';
 
 =pod
 
@@ -621,6 +621,12 @@ with an "oddeven" CSS class, and rows alternately classed
 as "even" or "odd". If it's not set, no CSS class info
 is added to tables.
 
+=item I<url-label-max>
+
+If an URL without label is given (that is, the URL itself
+is used as the label), it's trimmed to have as much
+characters as this value says. By default it's 80.
+
 =back
 
 =cut
@@ -634,6 +640,7 @@ sub new
 	$gh = \%args;
 
 	$gh->{'-process-urls'} = 1;
+	$gh->{'url-label-max'} ||= 80;
 
 	return $gh;
 }
@@ -684,7 +691,14 @@ sub _url
 {
 	my ($gh, $url, $label) = @_;
 
-	$label = $url unless $label;
+	if (!$label) {
+		$label = $url;
+
+		if (length($label) > $gh->{'url-label-max'}) {
+			$label = substr($label, 0,
+				$gh->{'url-label-max'}) . '...';
+		}
+	}
 
 	return "<a href = \"$url\">$label</a>";
 }
