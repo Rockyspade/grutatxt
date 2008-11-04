@@ -593,8 +593,8 @@ The additional parameters for a new Grutatxt object are:
 =item I<table-headers>
 
 If this boolean value is set, the first row in tables
-is assumed to be the heading and rendered using <th>
-instead of <td> tags.
+is assumed to be the heading and rendered using 'th'
+instead of 'td' tags.
 
 =item I<center-tables>
 
@@ -607,12 +607,12 @@ If this boolean value is set, tables are expanded (width 100%).
 =item I<dl-as-dl>
 
 If this boolean value is set, definition lists will be
-rendered using <dl>, <dt> and <dd> instead of tables.
+rendered using 'dl', 'dt' and 'dd' instead of tables.
 
 =item I<header-offset>
 
 Offset to be summed to the heading level when rendering
-<h?> tags (default is 0).
+'h?' tags (default is 0).
 
 =item I<class-oddeven>
 
