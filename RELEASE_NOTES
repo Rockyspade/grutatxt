@@ -27,3 +27,25 @@ Grutatxt Release Notes
  * The LaTeX driver now includes an option to change tabs into spaces.
  * Fixed a bug in the man page driver, that made extra indentations
    appear on blank lines.
+
+2.0.11
+------
+
+ * New LaTeX driver.
+
+2.0.10
+------
+
+ * Generates tidier HTML by quoting all attributes. Also, verbatim
+   HTML code is no longer bound to blocks of lines, but can happen in
+   the middle of a line.
+
+2.0.9
+-----
+
+ * Strips the leading ./ in relative URLs, and fixes some minor bugs.
+
+2.0.8
+-----
+
+ * Support for relative URLs.
