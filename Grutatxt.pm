@@ -62,6 +62,8 @@ separators and tables. Special marks can be inserted in the
 text and a heading-based structural index can be obtained
 from it.
 
+=for html <->
+
 A comprehensive description of the markup is defined in
 the README file, included with the Grutatxt package (it is
 written in Grutatxt format itself, so it can be converted
