@@ -8,6 +8,8 @@ Grutatxt Release Notes
    a maximum size for URLs.
  * New script `pod2grutatxt', to convert Perl documentation
    in POD format to Grutatxt.
+ * The `pre' mode is really verbatim, so bold / italic markup
+   is not processed.
 
 2.0.14
 ------

@@ -274,33 +274,35 @@ sub process
 			$l =~ s|^\./(\S+)|$gh->_url($1)|ge;
 		}
 
-		# change '''text''' and *text* into strong emphasis
-		$l =~ s/\'\'\'([^\'][^\'][^\']*)\'\'\'/$gh->_strong($1)/ge;
-		$l =~ s/\*(\S[^\*]+\S)\*/$gh->_strong($1)/ge;
-		$l =~ s/\*(\S+)\*/$gh->_strong($1)/ge;
+		if ($gh->{'-mode'} ne 'pre') {
+			# change '''text''' and *text* into strong emphasis
+			$l =~ s/\'\'\'([^\'][^\'][^\']*)\'\'\'/$gh->_strong($1)/ge;
+			$l =~ s/\*(\S[^\*]+\S)\*/$gh->_strong($1)/ge;
+			$l =~ s/\*(\S+)\*/$gh->_strong($1)/ge;
 
-		# change ''text'' and _text_ into emphasis
-		$l =~ s/\'\'([^\'][^\']*)\'\'/$gh->_em($1)/ge;
-		$l =~ s/\b_(\S[^_]*\S)_\b/$gh->_em($1)/ge;
-		$l =~ s/\b_(\S+)_\b/$gh->_em($1)/ge;
+			# change ''text'' and _text_ into emphasis
+			$l =~ s/\'\'([^\'][^\']*)\'\'/$gh->_em($1)/ge;
+			$l =~ s/\b_(\S[^_]*\S)_\b/$gh->_em($1)/ge;
+			$l =~ s/\b_(\S+)_\b/$gh->_em($1)/ge;
 
-		# change `text' into code
-		$l =~ s/`([^\']*)\'/$gh->_code($1)/ge;
+			# change `text' into code
+			$l =~ s/`([^\']*)\'/$gh->_code($1)/ge;
 
-		# enclose function names
-		if ($gh->{'strip-parens'}) {
-			$l =~ s/(\w+)\(\)/$gh->_funcname($1)/ge;
-		}
-		else {
-			$l =~ s/(\w+)\(\)/$gh->_funcname($1."()")/ge;
-		}
+			# enclose function names
+			if ($gh->{'strip-parens'}) {
+				$l =~ s/(\w+)\(\)/$gh->_funcname($1)/ge;
+			}
+			else {
+				$l =~ s/(\w+)\(\)/$gh->_funcname($1."()")/ge;
+			}
 
-		# enclose variable names
-		if ($gh->{'strip-dollars'}) {
-			$l =~ s/\$([\w_\.]+)/$gh->_varname($1)/ge;
-		}
-		else {
-			$l =~ s/(\$[\w_\.]+)/$gh->_varname($1)/ge;
+			# enclose variable names
+			if ($gh->{'strip-dollars'}) {
+				$l =~ s/\$([\w_\.]+)/$gh->_varname($1)/ge;
+			}
+			else {
+				$l =~ s/(\$[\w_\.]+)/$gh->_varname($1)/ge;
+			}
 		}
 
 		#
