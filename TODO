@@ -22,6 +22,8 @@ Pending Enhancements
  * 1005: Add a xhtml driver.
  * 1010: Add a TOC.
  * 1011: Create a ./test.pl script.
+ * 1013: Add a flag for doing a pure-passthrough `pre' mode, in which
+   no translations are done.
 
 Closed
 ------
