@@ -6,6 +6,8 @@ Grutatxt Release Notes
 
  * New parameter `url-label-max' to the HTML driver to set
    a maximum size for URLs.
+ * New script `pod2grutatxt', to convert Perl documentation
+   in POD format to Grutatxt.
 
 2.0.14
 ------
