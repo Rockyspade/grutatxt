@@ -1,0 +1,80 @@
+#!/usr/bin/perl
+
+use Pod::Parser;
+
+package GrutatxtParser;
+use base 'Pod::Parser';
+
+sub command {
+	my ($parser, $command, $paragraph, $line_num) = @_;
+
+	my $out_fh = $parser->output_handle();
+	my $out = $parser->interpolate($paragraph, $line_num);
+
+	if ($command =~ /^head(\d)/) {
+		my $c = ('=', '=', '-', '~', '~')[$1];
+		my ($t) = ($out =~ /^([^\n]+)/s);
+		my $s = $t;
+		$s =~ s/./$c/g;
+
+		$out =~ s/^\Q$t\E/$t\n$s/;
+	}
+	elsif ($command eq 'item') {
+		$out = ' * ' . $out;
+	}
+	elsif ($command eq 'over') {
+		$out = '';
+	}
+	elsif ($command eq 'for') {
+		my @w = split(/\s+/, $out);
+		my $k = shift(@w);
+
+		$out = '<<' . $k . "\n" . join(' ', @w) . "\n>>\n";
+	}
+	elsif ($command eq 'begin') {
+		my @w = split(/\s+/, $out);
+		my $k = shift(@w);
+
+		$out = '<<' . $k . "\n";
+	}
+	elsif ($command eq 'end') {
+		$out = ">>\n";
+	}
+
+	print $out_fh $out;
+}
+
+sub verbatim {
+	my ($parser, $paragraph, $line_num) = @_;
+	## Format verbatim paragraph; sample actions might be:
+	my $out_fh = $parser->output_handle();
+	print $out_fh $paragraph;
+}
+
+sub textblock {
+	my ($parser, $paragraph, $line_num) = @_;
+	## Translate/Format this block of text; sample actions might be:
+	my $out_fh = $parser->output_handle();
+	my $expansion = $parser->interpolate($paragraph, $line_num);
+	print $out_fh $expansion;
+}
+
+sub interior_sequence {
+	my ($parser, $seq_command, $seq_argument) = @_;
+
+	## Expand an interior sequence; sample actions might be:
+	return "*$seq_argument*"     if ($seq_command eq 'B');
+	return "`$seq_argument'"     if ($seq_command =~ /^(C|F)$/);
+	return "_${seq_argument}_"   if ($seq_command eq 'I');
+	return $seq_argument;
+}
+
+package main;
+
+## Create a parser object and have it parse file whose name was
+## given on the command-line (use STDIN if no files were given).
+$parser = new GrutatxtParser();
+$parser->parse_from_filehandle(\*STDIN)  if (@ARGV == 0);
+for (@ARGV) { $parser->parse_from_file($_); }
+
+exit 0;

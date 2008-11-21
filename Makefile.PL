@@ -5,6 +5,6 @@ WriteMakefile(
     'NAME'		=> 'Grutatxt',
     'dist'		=> { COMPRESS => gzip, SUFFIX => '.gz'},
     'VERSION_FROM'	=> 'Grutatxt.pm',
-    'EXE_FILES' 	=> [ 'grutatxt' ],
+    'EXE_FILES' 	=> [ 'grutatxt', 'pod2grutatxt' ],
     'INSTALLSCRIPT'	=> '/usr/local/bin',
 );
