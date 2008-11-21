@@ -8,5 +8,7 @@ README
 RELEASE_NOTES
 grutatxt
 grutatxt.1
+pod2grutatxt
 TODO
-apache_handlers.txt
+doc/grutatxt_apache_handlers.txt
+doc/grutatxt_markup.txt
