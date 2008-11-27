@@ -4,8 +4,7 @@ Grutatxt TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1014: The first line of a `pre' block is not pure
-   verbatim, as its processed _before_ setting modes.
+None!
 
 Open Bugs
 ---------
@@ -37,5 +36,8 @@ Closed
    (Thu, 03 Apr 2008 13:02:52 +0200).
  * 1013: Add a flag for doing a pure-passthrough `pre' mode, in which
    no translations are done (Fri, 21 Nov 2008 13:23:08 +0100).
+ * 1014: The first line of a `pre' block is not pure
+   verbatim, as its processed _before_ setting modes
+   (Thu, 27 Nov 2008 08:32:46 +0100).
 
 Email bugs to angel@triptico.com
