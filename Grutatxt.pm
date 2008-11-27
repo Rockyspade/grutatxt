@@ -344,8 +344,10 @@ sub process
 
 		# preformatted text
 		elsif ($l =~ s/^(\s.*)$/$gh->_pre($1)/e) {
-			# set line back to original
-			$l = $ol;
+			if ($gh->{'-mode'} eq 'pre') {
+				# set line back to original
+				$l = $ol;
+			}
 		}
 
 		# anything else
