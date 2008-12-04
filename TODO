@@ -5,6 +5,8 @@ Release Critical Bugs
 ---------------------
 
  * 1015: Create an option to disable verbatim `pre' mode.
+ * 1016: Update `pod2grutatxt' to use the line after 'NAME'
+   if one is set.
 
 Open Bugs
 ---------
