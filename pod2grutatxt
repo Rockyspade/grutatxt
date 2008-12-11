@@ -46,7 +46,7 @@ sub command {
 	my $out = $parser->interpolate($paragraph, $line_num);
 
 	if ($command =~ /^head(\d)/) {
-		my $c = ('=', '=', '-', '~', '~')[$1];
+		my $c = ('=', '-', '~', '~', '~')[$1];
 		my ($t) = ($out =~ /^([^\n]+)/s);
 
 		if ($t eq 'NAME') {
