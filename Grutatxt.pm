@@ -142,6 +142,12 @@ reference to scalar, it will contain (after each call to the
 B<process()> method) the subscript of the element of the output
 array that marks the end of the subject.
 
+=item I<no-pure-verbatim>
+
+Since version 2.0.15, text effects as italics and bold are not
+processed in I<verbatim> (preformatted) mode. If you want to
+revert to the old behaviour, use this option.
+
 =back
 
 =cut
