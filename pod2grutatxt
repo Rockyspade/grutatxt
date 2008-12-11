@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # pod2grutatxt - Converts POD format to Grutatxt
-# http://www.triptico.com/software/grutatxt.html
+# http://triptico.com/software/grutatxt.html
 #
 # Copyright (C) 2008 Angel Ortega <angel@triptico.com>
 #
@@ -26,6 +26,17 @@ use Pod::Parser;
 package GrutatxtParser;
 use base 'Pod::Parser';
 
+sub _build_header {
+	my $title	= shift;
+	my $char	= shift;
+
+	my $s = $title;
+	$s =~ s/./$char/g;
+
+	return $title . "\n" . $s . "\n\n";
+}
+
+
 sub command {
 	my ($parser, $command, $paragraph, $line_num) = @_;
 
@@ -35,10 +46,8 @@ sub command {
 	if ($command =~ /^head(\d)/) {
 		my $c = ('=', '=', '-', '~', '~')[$1];
 		my ($t) = ($out =~ /^([^\n]+)/s);
-		my $s = $t;
-		$s =~ s/./$c/g;
 
-		$out =~ s/^\Q$t\E/$t\n$s/;
+		$out = _build_header($t, $c);
 	}
 	elsif ($command eq 'item') {
 		$out = ' * ' . $out;
