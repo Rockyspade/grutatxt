@@ -330,7 +330,8 @@ sub process
 		}
 
 		# quoted block
-		elsif ($l =~ s/^\s\"/$gh->_blockquote()/e) {
+		elsif ($gh->{'-mode'} ne 'pre' and
+			$l =~ s/^\s\"/$gh->_blockquote()/e) {
 		}
 
 		# table rows
