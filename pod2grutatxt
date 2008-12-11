@@ -26,7 +26,7 @@ use Pod::Parser;
 package GrutatxtParser;
 use base 'Pod::Parser';
 
-my $_deferred_title = undef;
+my $_deferred_title = 0;
 
 sub _build_header {
 	my $title	= shift;
@@ -94,6 +94,13 @@ sub textblock {
 	## Translate/Format this block of text; sample actions might be:
 	my $out_fh = $parser->output_handle();
 	my $expansion = $parser->interpolate($paragraph, $line_num);
+
+	if ($_deferred_title) {
+		my ($t) = ($expansion =~ /^([^\n]+)/s);
+		$expansion = _build_header($t, '=');
+		$_deferred_title = 0;
+	}
+
 	print $out_fh $expansion;
 }
 
