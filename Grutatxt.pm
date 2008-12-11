@@ -75,7 +75,7 @@ from the Grutatxt home page at:
 
 =head1 FUNCTIONS AND METHODS
 
-=head2 B<new>
+=head2 new
 
  $grutatxt = new Grutatxt([ "mode"  => $mode, ]
 			[ "title" => \$title, ]
@@ -187,7 +187,7 @@ sub escape
 }
 
 
-=head2 B<process>
+=head2 process
 
  @output = $grutatxt->process($text);
 
@@ -393,7 +393,7 @@ sub process
 }
 
 
-=head2 B<process_file>
+=head2 process_file
 
  @output = $grutatxt->process_file($filename);
 
