@@ -4,7 +4,6 @@ Grutatxt TODO / Bug List
 Release Critical Bugs
 ---------------------
 
- * 1015: Create an option to disable verbatim `pre' mode.
  * 1016: Update `pod2grutatxt' to use the line after 'NAME'
    if one is set.
 
@@ -41,5 +40,7 @@ Closed
  * 1014: The first line of a `pre' block is not pure
    verbatim, as its processed _before_ setting modes
    (Thu, 27 Nov 2008 08:32:46 +0100).
+ * 1015: Create an option to disable verbatim `pre' mode
+   (Thu, 11 Dec 2008 09:48:59 +0100).
 
 Email bugs to angel@triptico.com

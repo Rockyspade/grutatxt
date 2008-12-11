@@ -6,7 +6,7 @@ use lib '.';
 # grutatxt - Text to HTML (and other formats) converter
 # http://www.triptico.com/software/grutatxt.html
 #
-# Copyright (C) 2000/2007 Angel Ortega <angel@triptico.com>
+# Copyright (C) 2000/2008 Angel Ortega <angel@triptico.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -68,6 +68,9 @@ $tabsize = 8;
 # avoid time signature
 $no_time_sig = 0;
 
+# disable pure verbatim mode
+$no_pure_verbatim = 0;
+
 #####################################################################
 
 # parse options
@@ -91,8 +94,9 @@ if (!GetOptions('i|input=s'		=>	\$input_file,
 		'papersize=s'		=>	\$papersize,
 		'encoding=s'		=>	\$encoding,
 		'dl'			=>	\$dl_as_dl,
-		'no-time-sig'		=>	\$no_time_sig)
-	      or $usage) {
+		'no-time-sig'		=>	\$no_time_sig,
+		'no-pure-verbatim'	=>	\$no_pure_verbatim
+	) or $usage) {
 	usage();
 }
 
@@ -136,7 +140,8 @@ $grutatxt = new Grutatxt(
 		'section'	=> $man_section,
 		'docclass'	=> $latex_docclass,
 		'papersize'	=> $papersize,
-		'encoding'	=> $encoding
+		'encoding'	=> $encoding,
+		'no-pure-verbatim' => $no_pure_verbatim
 		);
 
 @result = $grutatxt->process($content);
@@ -191,7 +196,7 @@ exit(0);
 sub usage
 {
 	print "grutatxt $VERSION - Grutatxt format processor\n";
-	print "Copyright (C) 2000/2007 Angel Ortega <angel\@triptico.com>\n";
+	print "Copyright (C) 2000/2008 Angel Ortega <angel\@triptico.com>\n";
 	print "This software is covered by the GPL license. NO WARRANTY.\n\n";
 
 	print "Usage:\n";
@@ -211,6 +216,7 @@ sub usage
 	print "                               Output mode: HTML, troff, man or latex\n";
 	print "                               (default: HTML)\n";
 	print "    --no-time-sig              Avoid time signature in HTML comment\n";
+	print "    --no-pure-verbatim         Disable pure verbatim mode\n\n";
 	print "HTML options:\n\n";
 	print "    -c|--css=CSS_URL_OR_FILE   CSS URL (or file if using --embed-css)\n";
 	print "    -e|--embed-css             Embed CSS instead of linking to it\n";
