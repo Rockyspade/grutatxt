@@ -6,7 +6,7 @@ use lib '.';
 # grutatxt - Text to HTML (and other formats) converter
 # http://www.triptico.com/software/grutatxt.html
 #
-# Copyright (C) 2000/2008 Angel Ortega <angel@triptico.com>
+# Copyright (C) 2000/2009 Angel Ortega <angel@triptico.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -71,6 +71,9 @@ $no_time_sig = 0;
 # disable pure verbatim mode
 $no_pure_verbatim = 0;
 
+# enable TOC
+$toc = 0;
+
 #####################################################################
 
 # parse options
@@ -95,7 +98,8 @@ if (!GetOptions('i|input=s'		=>	\$input_file,
 		'encoding=s'		=>	\$encoding,
 		'dl'			=>	\$dl_as_dl,
 		'no-time-sig'		=>	\$no_time_sig,
-		'no-pure-verbatim'	=>	\$no_pure_verbatim
+		'no-pure-verbatim'	=>	\$no_pure_verbatim,
+		'toc'			=>	\$toc
 	) or $usage) {
 	usage();
 }
@@ -141,7 +145,8 @@ $grutatxt = new Grutatxt(
 		'docclass'	=> $latex_docclass,
 		'papersize'	=> $papersize,
 		'encoding'	=> $encoding,
-		'no-pure-verbatim' => $no_pure_verbatim
+		'no-pure-verbatim' => $no_pure_verbatim,
+		'toc'		=> $toc
 		);
 
 @result = $grutatxt->process($content);
@@ -216,7 +221,8 @@ sub usage
 	print "                               Output mode: HTML, troff, man or latex\n";
 	print "                               (default: HTML)\n";
 	print "    --no-time-sig              Avoid time signature in HTML comment\n";
-	print "    --no-pure-verbatim         Disable pure verbatim mode\n\n";
+	print "    --no-pure-verbatim         Disable pure verbatim mode\n";
+	print "    --toc                      Add a table of contents after abstract\n\n";
 	print "HTML options:\n\n";
 	print "    -c|--css=CSS_URL_OR_FILE   CSS URL (or file if using --embed-css)\n";
 	print "    -e|--embed-css             Embed CSS instead of linking to it\n";

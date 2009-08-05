@@ -20,7 +20,6 @@ Pending Enhancements
  * 1003: Add a docbook driver.
  * 1004: New markup for footnotes.
  * 1005: Add a xhtml driver.
- * 1010: Add a TOC.
  * 1011: Create a ./test.pl script.
 
 Closed
@@ -43,5 +42,6 @@ Closed
    (Thu, 11 Dec 2008 09:48:59 +0100).
  * 1016: Update `pod2grutatxt' to use the line after 'NAME'
    if one is set (Thu, 11 Dec 2008 10:16:23 +0100).
+ * 1010: Add a TOC (Wed, 05 Aug 2009 09:54:22 +0200).
 
 Email bugs to angel@triptico.com

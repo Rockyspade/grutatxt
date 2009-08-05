@@ -2,7 +2,7 @@
 #
 #   Grutatxt - A text to HTML (and other things) converter
 #
-#   Copyright (C) 2000/2008 Angel Ortega <angel@triptico.com>
+#   Copyright (C) 2000/2009 Angel Ortega <angel@triptico.com>
 #
 #   This program is free software; you can redistribute it and/or
 #   modify it under the terms of the GNU General Public License
@@ -147,6 +147,12 @@ Since version 2.0.15, text effects as italics and bold are not
 processed in I<verbatim> (preformatted) mode. If you want to
 revert to the old behaviour, use this option.
 
+=item I<toc>
+
+If set, a table of contents will be generated after the abstract.
+The table of contents will be elaborated using headings from 2
+and 3 levels.
+
 =back
 
 =cut
@@ -214,13 +220,25 @@ sub process
 	$gh->{'-p'} = 0;
 
 	# clean marks
-	@{$gh->{'marks'}} = () if ref($gh->{'marks'});
+	if (!$gh->{marks}) {
+		$gh->{marks} = \$gh->{_marks};
+	}
+
+	$gh->{'marks'} = [];
 
 	# clean index
-	@{$gh->{'index'}} = () if ref($gh->{'index'});
+	if (!$gh->{index}) {
+		$gh->{index} = \$gh->{_index};
+	}
+
+	$gh->{'index'} = [];
 
 	# reset abstract line
-	${$gh->{'abstract'}} = 0 if ref($gh->{'abstract'});
+	if (!$gh->{abstract}) {
+		$gh->{abstract} = \$gh->{_abstract};
+	}
+
+	${$gh->{'abstract'}} = 0;
 
 	# insert prefix
 	$gh->_prefix();
@@ -394,6 +412,14 @@ sub process
 
 	# travel all lines again, post-escaping
 	@{$gh->{'o'}} = map { $_ = $gh->_escape_post($_); } @{$gh->{'o'}};
+
+	# add TOC after first paragraph
+	if ($gh->{toc}) {
+		@{$gh->{o}} = (@{$gh->{o}}[0 .. ${$gh->{abstract}}],
+			$gh->_toc(),
+			@{$gh->{o}}[${$gh->{abstract}} + 1 ..
+				scalar(@{$gh->{o}})]);
+	}
 
 	return @{$gh->{'o'}};
 }
@@ -586,6 +612,7 @@ sub _heading { my ($gh, $level, $l) = @_; $l; }
 sub _table { my ($gh, $str) = @_; $str; }
 sub _prefix { my ($gh) = @_; }
 sub _postfix { my ($gh) = @_; }
+sub _toc { my ($gh) = @_; return (); }
 
 ###########################################################
 
@@ -876,16 +903,26 @@ sub _hr
 }
 
 
+sub __mkanchor
+{
+	my $gh =	shift;
+	my $a =		shift;
+
+	$a = lc($a);
+	$a =~ s/[\"\'\/]//g;
+	$a =~ s/\s/_/g;
+	$a =~ s/<[^>]+>//g;
+
+	return $a;
+}
+
+
 sub _heading
 {
 	my ($gh, $level, $l) = @_;
 
 	# creates a valid anchor
-	my ($a) = lc($l);
-
-	$a =~ s/[\"\'\/]//g;
-	$a =~ s/\s/_/g;
-	$a =~ s/<[^>]+>//g;
+	my $a = $gh->__mkanchor($l);
 
 	$l = sprintf("<a name = '%s'></a>\n<h%d class = 'level$level'>%s</h%d>",
 		$a, $level+$gh->{'header-offset'},
@@ -951,6 +988,39 @@ sub _table
 	return $str;
 }
 
+
+sub _toc
+{
+	my $gh = shift;
+	my @t = ();
+
+	push(@t, '<!-- TOC -->');
+
+	# pick index and delete first element (title)
+	my @li = @{$gh->{index}};
+	shift(@li);
+	my $l = 1;
+
+	foreach my $e (@li) {
+		if ($l < $e->[0]) {
+			push(@t, '<ol>');
+		}
+		elsif ($l > $e->[0]) {
+			push(@t, '</ol>');
+		}
+
+		$l = $e->[0];
+
+		push(@t, sprintf("<li><a href = '#%s'>%s</a></li>",
+			$gh->__mkanchor($e->[1]), $e->[1]));
+	}
+
+	while (--$l) {
+		push(@t, '</ol>');
+	}
+
+	return @t;
+}
 
 ###########################################################
 # troff Driver
