@@ -1006,12 +1006,14 @@ sub _toc
 
 	push(@t, '<!-- TOC -->');
 
-	# pick index and delete first element (title)
-	my @li = @{$gh->{index}};
-	shift(@li);
-	my $l = 1;
+	my $l = 0;
 
-	foreach my $e (@li) {
+	foreach my $e (@{$gh->{index}}) {
+		# ignore level 1 headings
+		if ($e->[0] == 1) {
+			next;
+		}
+
 		if ($l < $e->[0]) {
 			push(@t, '<ol>');
 		}
