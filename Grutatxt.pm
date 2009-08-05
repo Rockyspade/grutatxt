@@ -260,6 +260,12 @@ sub process
 			next;
 		}
 
+		# TOC mark
+		if ($l =~ /^\s*<\?>\s*$/) {
+			$gh->{toc} = $gh->{_toc_pos} = scalar(@{$gh->{o}});
+			next;
+		}
+
 		# escape possibly dangerous characters
 		$l = $gh->escape($l);
 
@@ -415,7 +421,9 @@ sub process
 
 	# add TOC after first paragraph
 	if ($gh->{toc}) {
-		my $p = $gh->{marks}->[0] || ${$gh->{abstract}};
+		my $p = $gh->{_toc_pos} ||
+			$gh->{marks}->[0] ||
+			${$gh->{abstract}};
 
 		@{$gh->{o}} = (@{$gh->{o}}[0 .. $p],
 			$gh->_toc(),
