@@ -415,9 +415,11 @@ sub process
 
 	# add TOC after first paragraph
 	if ($gh->{toc}) {
-		@{$gh->{o}} = (@{$gh->{o}}[0 .. ${$gh->{abstract}}],
+		my $p = $gh->{marks}->[0] || ${$gh->{abstract}};
+
+		@{$gh->{o}} = (@{$gh->{o}}[0 .. $p],
 			$gh->_toc(),
-			@{$gh->{o}}[${$gh->{abstract}} + 1 ..
+			@{$gh->{o}}[$p + 1 ..
 				scalar(@{$gh->{o}})]);
 	}
 
