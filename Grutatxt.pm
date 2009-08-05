@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.15';
+$VERSION = '2.0.16-dev';
 
 =pod
 
@@ -111,9 +111,8 @@ are found in the text.
 =item I<index>
 
 If I<index> is specified as a reference to array, it will
-be filled with strings in the format
-
- level,heading
+be filled with two element arrayrefs with the level as first
+argument and the heading as second.
 
 This information can be used to build a table of contents
 of the processed text.
@@ -446,7 +445,7 @@ sub _process_heading
 
 	# store index
 	if (ref($gh->{'index'})) {
-		push(@{$gh->{'index'}},"$level,$l");
+		push(@{$gh->{'index'}}, [ $level, $l ]);
 	}
 
 	return $gh->_heading($level,$l);
