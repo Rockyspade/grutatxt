@@ -420,7 +420,7 @@ sub process
 	@{$gh->{'o'}} = map { $_ = $gh->_escape_post($_); } @{$gh->{'o'}};
 
 	# add TOC after first paragraph
-	if ($gh->{toc}) {
+	if ($gh->{toc} && @{$gh->{o}}) {
 		my $p = $gh->{_toc_pos} ||
 			$gh->{marks}->[0] ||
 			${$gh->{abstract}};
