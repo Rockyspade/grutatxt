@@ -249,5 +249,5 @@ sub usage
 	print "    -ts|--tabsize=NUMBER       Tab size for tab to space conversions in\n";
 	print "                               LaTeX verbatim environment (default: 8)\n";
 
-	exit(0);
+	exit(1);
 }
