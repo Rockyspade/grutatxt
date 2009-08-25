@@ -1004,7 +1004,7 @@ sub _toc
 	my $gh = shift;
 	my @t = ();
 
-	push(@t, '<!-- TOC -->');
+	push(@t, "<div class = 'TOC'>");
 
 	my $l = 0;
 
@@ -1030,6 +1030,8 @@ sub _toc
 	while (--$l) {
 		push(@t, '</ol>');
 	}
+
+	push(@t, "</div>");
 
 	return @t;
 }
