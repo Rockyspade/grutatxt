@@ -224,14 +224,14 @@ sub process
 		$gh->{marks} = \$gh->{_marks};
 	}
 
-	$gh->{'marks'} = [];
+	@{$gh->{'marks'}} = ();
 
 	# clean index
 	if (!$gh->{index}) {
 		$gh->{index} = \$gh->{_index};
 	}
 
-	$gh->{'index'} = [];
+	@{$gh->{'index'}} = ();
 
 	# reset abstract line
 	if (!$gh->{abstract}) {
