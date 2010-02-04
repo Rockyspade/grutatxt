@@ -1946,7 +1946,7 @@ sub _prefix
 {
 	my $gh = shift;
 
-	$gh->_push('{\rtf1\ansi {\plain \fs' . $gh->{'normal-size'} . ' ');
+	$gh->_push('{\rtf1\ansi {\plain \fs' . $gh->{'normal-size'} . ' \sa227 ');
 }
 
 
@@ -1962,7 +1962,7 @@ sub _heading
 {
 	my ($gh, $level, $l) = @_;
 
-	return ' \par {\b \fs' . $gh->{'heading-sizes'}->[$level] . ' ' . $l . '}\par ';
+	return '{\b \fs' . $gh->{'heading-sizes'}->[$level] . ' ' . $l . '}';
 }
 
 
