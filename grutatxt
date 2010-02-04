@@ -217,8 +217,8 @@ sub usage
 	print "                               names (shown monospaced anyway)\n";
 	print "    -sd|--strip-dollars        Strip leading \$ in variable\n";
 	print "                               names (shown monospaced anyway)\n";
-	print "    -m|--mode=[HTML|troff|man|latex]\n";
-	print "                               Output mode: HTML, troff, man or latex\n";
+	print "    -m|--mode=[HTML|troff|man|latex|rtf]\n";
+	print "                               Output mode: HTML, troff, man, LaTEX or RTF\n";
 	print "                               (default: HTML)\n";
 	print "    --no-time-sig              Avoid time signature in HTML comment\n";
 	print "    --no-pure-verbatim         Disable pure verbatim mode\n";
