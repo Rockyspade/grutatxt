@@ -1987,6 +1987,37 @@ sub _code
 }
 
 
+sub _dl
+{
+	my ($gh, $str) = @_;
+
+	$gh->_new_mode('dl');
+	return "{{\\b $str \\par} {\\li566 ";
+}
+
+
+sub _new_mode
+{
+	my ($gh, $mode, $params) = @_;
+
+	if ($mode ne $gh->{'-mode'}) {
+		if ($gh->{'-mode'} eq 'dl') {
+			$gh->_push('}}');
+		}
+
+		$gh->{'-mode'} = $mode;
+
+		$gh->{'-ul-levels'} = undef;
+		$gh->{'-ol-levels'} = undef;
+	}
+	else {
+		if ($mode eq 'dl') {
+			$gh->_push('}\par}');
+		}
+	}
+}
+
+
 sub _postfix
 {
 	my $gh = shift;
