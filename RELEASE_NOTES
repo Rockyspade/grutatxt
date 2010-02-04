@@ -1,6 +1,13 @@
 Grutatxt Release Notes
 ======================
 
+2.0.16
+------
+
+  * New table of contents generation, triggered by the
+   `--toc' command line argument or by adding a special
+   mark inside the text.
+
 2.0.15
 ------
 
