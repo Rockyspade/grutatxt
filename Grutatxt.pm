@@ -1913,13 +1913,13 @@ The additional parameters for a new Grutatxt object are:
 
 =item I<normal-size>
 
-The point size of normal text. By default is 10.
+The point size of normal text. By default is 20.
 
 =item I<heading-sizes>
 
 This argument must be a reference to an array containing
 the size in points of the 3 different heading levels. By
-default, level sizes are [ 20, 18, 15 ].
+default, level sizes are [ 34, 30, 28 ].
 
 =back
 
@@ -1946,7 +1946,7 @@ sub _prefix
 {
 	my $gh = shift;
 
-	$gh->_push('{\rtf1\ansi {\plain \fs' . $gh->{'normal-size'} . ' \sa227 ');
+	$gh->_push('{\rtf1\ansi {\plain \fs' . $gh->{'normal-size'} . ' \sa227');
 }
 
 
@@ -1954,7 +1954,7 @@ sub _empty_line
 {
 	my $gh = shift;
 
-	return '\par ';
+	return '\par';
 }
 
 
@@ -1990,6 +1990,8 @@ sub _code
 sub _postfix
 {
 	my $gh = shift;
+
+	@{$gh->{o}} = map { $_ . ' '; } @{$gh->{o}};
 
 	$gh->_push('}}');
 }
