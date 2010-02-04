@@ -1987,6 +1987,15 @@ sub _code
 }
 
 
+sub _ul
+{
+	my ($gh, $levels) = @_;
+
+	$gh->_new_mode('ul');
+	return "{{\\bullet \\li" . $levels . ' ';
+}
+
+
 sub _dl
 {
 	my ($gh, $str) = @_;
@@ -2001,7 +2010,7 @@ sub _new_mode
 	my ($gh, $mode, $params) = @_;
 
 	if ($mode ne $gh->{'-mode'}) {
-		if ($gh->{'-mode'} eq 'dl') {
+		if ($gh->{'-mode'} =~ /^(dl|ul)$/) {
 			$gh->_push('}}');
 		}
 
@@ -2011,7 +2020,7 @@ sub _new_mode
 		$gh->{'-ol-levels'} = undef;
 	}
 	else {
-		if ($mode eq 'dl') {
+		if ($mode =~ /^(dl|ul)$/) {
 			$gh->_push('}\par}');
 		}
 	}
