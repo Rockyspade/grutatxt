@@ -2,7 +2,7 @@
 #
 #   Grutatxt - A text to HTML (and other things) converter
 #
-#   Copyright (C) 2000/2009 Angel Ortega <angel@triptico.com>
+#   Copyright (C) 2000/2010 Angel Ortega <angel@triptico.com>
 #
 #   This program is free software; you can redistribute it and/or
 #   modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 #   along with this program; if not, write to the Free Software
 #   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
-#   http://www.triptico.com
+#   http://triptico.com
 #
 #####################################################################
 
@@ -71,7 +71,7 @@ using the I<grutatxt> tool to any of the supported formats).
 The latest version (and more information) can be retrieved
 from the Grutatxt home page at:
 
- http://www.triptico.com/software/grutatxt.html
+ http://triptico.com/software/grutatxt.html
 
 =head1 FUNCTIONS AND METHODS
 
@@ -293,12 +293,14 @@ sub process
 			$l =~ s/(file:\/?\S+)\s+\(([^\)]+)\)/$gh->_url($1,$2)/ge;
 			$l =~ s|(\s+)\./(\S+)\s+\(([^\)]+)\)|$1.$gh->_url($2,$3)|ge;
 			$l =~ s|^\./(\S+)\s+\(([^\)]+)\)|$gh->_url($1,$2)|ge;
+			$l =~ s/(mailto:\S+)\s+\(([^\)]+)\)/$gh->_url($1,$2)/ge;
 
 			# URLs without phrase
 			$l =~ s/([^=][^\"])(https?:\/\/\S+)/$1.$gh->_url($2)/ge;
 			$l =~ s/([^=][^\"])(ftps?:\/\/\S+)/$1.$gh->_url($2)/ge;
 			$l =~ s/([^=][^\"])(file:\/?\S+)/$1.$gh->_url($2)/ge;
 			$l =~ s|(\s+)\./(\S+)|$1.$gh->_url($2)|ge;
+			$l =~ s/([^=][^\"])(mailto:)(\S+)/$1.$gh->_url($2.$3,$3)/ge;
 
 			$l =~ s/^(https?:\/\/\S+)/$gh->_url($1)/ge;
 			$l =~ s/^(ftps?:\/\/\S+)/$gh->_url($1)/ge;

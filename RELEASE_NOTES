@@ -8,6 +8,7 @@ Grutatxt Release Notes
  * New table of contents generation, triggered by the
    `--toc' command line argument or by adding a special
    mark inside the text.
+ * Mailto URLs are also processed.
 
 2.0.15
 ------
