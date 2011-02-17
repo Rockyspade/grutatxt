@@ -222,5 +222,12 @@ hyphens alone in a line. To avoid being confused with a second level
 heading, insert a blank line just before. To the end of this document
 there should be a separator, above my signature.
 
+Table of contents
+-----------------
+
+Since version 2.0.16, Grutatxt allow the insertion of a table of contents
+if the output is HTML. The table of contents can be inserted by including
+a <?> mark alone in a line of the text.
+
 ----
 Angel Ortega <angel@triptico.com>
