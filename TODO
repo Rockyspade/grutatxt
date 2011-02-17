@@ -10,6 +10,7 @@ Open Bugs
 ---------
 
  * 1009: Troff mode multiple-level lists don't work.
+ * 1017: Fix / finish the RTF driver.
 
 Pending Enhancements
 --------------------
