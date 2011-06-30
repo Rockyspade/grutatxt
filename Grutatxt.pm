@@ -26,7 +26,7 @@ package Grutatxt;
 
 use locale;
 
-$VERSION = '2.0.16';
+$VERSION = '2.0.17-dev';
 
 =pod
 
@@ -468,25 +468,29 @@ sub _push
 
 sub _process_heading
 {
-	my ($gh, $level, $hd) = @_;
-	my ($l);
+    my ($gh, $level, $hd) = @_;
+    my $l;
+    my $is_title = 0;
 
-	$l = pop(@{$gh->{'o'}});
+    $l = pop(@{$gh->{'o'}});
 
-	if ($l eq $gh->_empty_line()) {
-		$gh->_push($l);
-		return $hd;
-	}
+    if ($l eq $gh->_empty_line()) {
+        $gh->_push($l);
+        return $hd;
+    }
 
-	# store title
-	$gh->{'-title'} = $l if $level == 1 and not $gh->{'-title'};
+    # store title
+    if ($level == 1 and not $gh->{'-title'}) {
+        $gh->{'-title'} = $l;
+        $is_title = 1;
+    }
 
-	# store index
-	if (ref($gh->{'index'})) {
-		push(@{$gh->{'index'}}, [ $level, $l ]);
-	}
+    # store index
+    if (ref($gh->{'index'})) {
+        push(@{$gh->{'index'}}, [ $level, $l ]);
+    }
 
-	return $gh->_heading($level,$l);
+    return $gh->_heading($level, $l, $is_title);
 }
 
 
@@ -931,16 +935,21 @@ sub __mkanchor
 
 sub _heading
 {
-	my ($gh, $level, $l) = @_;
+    my ($gh, $level, $l, $title) = @_;
 
-	# creates a valid anchor
-	my $a = $gh->__mkanchor($l);
+    # creates a valid anchor
+    my $a = $gh->__mkanchor($l);
 
-	$l = sprintf("<a name = '%s'></a>\n<h%d class = 'level$level'>%s</h%d>",
-		$a, $level+$gh->{'header-offset'},
-		$l, $level+$gh->{'header-offset'});
+    $l = sprintf(
+        "<a %s name = '%s'></a>\n<h%d class = 'level$level'>%s</h%d>",
+        $title ? "class = 'title'" : '',
+        $a,
+        $level + $gh->{'header-offset'},
+        $l,
+        $level + $gh->{'header-offset'}
+    );
 
-	return $l;
+    return $l;
 }
 
 
