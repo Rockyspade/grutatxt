@@ -5,6 +5,8 @@ Grutatxt Release Notes
 ------
 
  * The title is marked with the class 'title'.
+ * When using `--no-pure-verbatim' under LaTeX mode,
+   blockquotes are enclosed in `alttt' instead of `verbatim'.
 
 2.0.16
 ------

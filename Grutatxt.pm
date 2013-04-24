@@ -1621,6 +1621,10 @@ sub _prefix
 {
 	my ($gh) = @_;
 
+    if ($gh->{'no-pure-verbatim'}) {
+        $gh->_push("\\usepackage{alttt}");
+    }
+
 	$gh->_push("\\documentclass[$gh->{'-papersize'}]{$gh->{-docclass}}");
 	$gh->_push("\\usepackage[$gh->{'-encoding'}]{inputenc}");
 
@@ -1725,13 +1729,13 @@ sub _new_mode
 
 	# mode equivalences
 	my %latex_modes = (
-		'pre'		=>	'verbatim',
-		'blockquote'	=>	'quote',
-		'table'		=>	'tabular',
-		'dl'		=>	'description',
-		'ul'		=>	'itemize',
-		'ol'		=>	'enumerate'
-	);
+        'pre'           => $gh->{'no-pure-verbatim'} ? 'alttt' : 'verbatim',
+        'blockquote'    => 'quote',
+        'table'         => 'tabular',
+        'dl'            => 'description',
+        'ul'            => 'itemize',
+        'ol'            => 'enumerate'
+    );
 
 	if ($mode ne $gh->{'-mode'}) {
 		# close previous mode
