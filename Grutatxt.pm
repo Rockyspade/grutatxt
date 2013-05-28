@@ -759,7 +759,7 @@ sub _url
 		}
 	}
 
-	return "<a href = \"$url\">$label</a>";
+	return "<a href=\"$url\">$label</a>";
 }
 
 
