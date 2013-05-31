@@ -6,7 +6,7 @@ use lib '.';
 # grutatxt - Text to HTML (and other formats) converter
 # http://triptico.com/software/grutatxt.html
 #
-# Copyright (C) 2000/2011 Angel Ortega <angel@triptico.com>
+# Copyright (C) 2000/2013 Angel Ortega <angel@triptico.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -99,7 +99,8 @@ if (!GetOptions('i|input=s'		=>	\$input_file,
 		'dl'			=>	\$dl_as_dl,
 		'no-time-sig'		=>	\$no_time_sig,
 		'no-pure-verbatim'	=>	\$no_pure_verbatim,
-		'toc'			=>	\$toc
+		'toc'			=>	\$toc,
+        'href-new-window'   =>  \$href_new_window
 	) or $usage) {
 	usage();
 }
@@ -146,7 +147,8 @@ $grutatxt = new Grutatxt(
 		'papersize'	=> $papersize,
 		'encoding'	=> $encoding,
 		'no-pure-verbatim' => $no_pure_verbatim,
-		'toc'		=> $toc
+		'toc'		=> $toc,
+        'href-new-window' => $href_new_window
 		);
 
 @result = $grutatxt->process($content);
@@ -201,7 +203,7 @@ exit(0);
 sub usage
 {
 	print "grutatxt $VERSION - Grutatxt format processor\n";
-	print "Copyright (C) 2000/2011 Angel Ortega <angel\@triptico.com>\n";
+	print "Copyright (C) 2000/2013 Angel Ortega <angel\@triptico.com>\n";
 	print "This software is covered by the GPL license. NO WARRANTY.\n\n";
 
 	print "Usage:\n";
@@ -233,10 +235,11 @@ sub usage
 	print "    -ct|--center-tables        Centers the tables\n";
 	print "    -xt|--expand-tables        Expands the tables (width=100\%)\n";
 	print "    -nb|-no-body               Don't generate <html><body>...\n";
-	print "                               </body></html> enclosing.\n";
+	print "                               </body></html> enclosing\n";
 	print "    --encoding=ENCODING        Character encoding (default: iso-8859-1)\n";
 	print "    -dl                        Use real <dl>, <dd> and <dt>\n";
-	print "                               instead of tables in definition lists.\n";
+	print "                               instead of tables in definition lists\n";
+    print "    --href-new-window          Open links in new windows/tabs\n\n";
 	print "troff options:\n\n";
 	print "    --table-type=TYPE          Table type. Possible values:\n";
 	print "                               box, allbox, doublebox (default allbox)\n";

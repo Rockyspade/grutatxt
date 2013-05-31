@@ -2,7 +2,7 @@
 #
 #   Grutatxt - A text to HTML (and other things) converter
 #
-#   Copyright (C) 2000/2011 Angel Ortega <angel@triptico.com>
+#   Copyright (C) 2000/2013 Angel Ortega <angel@triptico.com>
 #
 #   This program is free software; you can redistribute it and/or
 #   modify it under the terms of the GNU General Public License
@@ -749,6 +749,7 @@ sub _empty_line
 sub _url
 {
 	my ($gh, $url, $label) = @_;
+    my $more = '';
 
 	if (!$label) {
 		$label = $url;
@@ -759,7 +760,11 @@ sub _url
 		}
 	}
 
-	return "<a href=\"$url\">$label</a>";
+    if ($gh->{'href-new-window'}) {
+        $more = ' target=\"_blank\"';
+    }
+
+	return "<a href=\"$url\"$more>$label</a>";
 }
 
 
