@@ -112,7 +112,7 @@ if ($version) {
 open I, $input_file or die "Can't open $input_file: $!";
 open O, ">$output_file" or die "Can't create $output_file: $!";
 
-# if utf8 encoding is wanted, set the filehandles as utf8
+# if utf-8 encoding is wanted, set the filehandles as utf-8
 # so that regular expressions match all characters
 # (this is crap)
 if (defined($encoding) && $encoding =~ /^utf-?8/i) {
@@ -161,7 +161,7 @@ unless ($no_body) {
 	print O " 	\"http://www.w3.org/TR/REC-html40/loose.dtd\">\n";
 	print O "<html><head>\n";
 	print O "<meta http-equiv='Content-Type' content='text/html; charset=" .
-		($encoding || 'iso-8859-1') . "'>\n";
+		($encoding || 'utf-8') . "'>\n";
 	print O "<title>$title</title>\n";
 
 	printf O "<!-- converted from text by grutatxt $VERSION on %s -->\n", scalar(localtime)
@@ -236,7 +236,7 @@ sub usage
 	print "    -xt|--expand-tables        Expands the tables (width=100\%)\n";
 	print "    -nb|-no-body               Don't generate <html><body>...\n";
 	print "                               </body></html> enclosing\n";
-	print "    --encoding=ENCODING        Character encoding (default: iso-8859-1)\n";
+	print "    --encoding=ENCODING        Character encoding (default: utf-8)\n";
 	print "    -dl                        Use real <dl>, <dd> and <dt>\n";
 	print "                               instead of tables in definition lists\n";
     print "    --href-new-window          Open links in new windows/tabs\n\n";
