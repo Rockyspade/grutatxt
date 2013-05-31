@@ -761,7 +761,7 @@ sub _url
 	}
 
     if ($gh->{'href-new-window'}) {
-        $more = ' target=\"_blank\"';
+        $more = ' target="_blank"';
     }
 
 	return "<a href=\"$url\"$more>$label</a>";
