@@ -321,6 +321,12 @@ sub process
 		# change `text' into code
 		$l =~ s/`([^\']*)\'/$gh->_code($1)/ge;
 
+		# james: change :-class-text--: into span class
+		$l =~ s/:-([^-]+)-(.+)--:/$gh->_spanclass($1,$2)/ge;
+		# james: add :=class= text ==: 
+		$l =~ s/:=([^=]+)=/$gh->_divclassopen($1)/ge; # open
+		$l =~ s/==:/$gh->_divclassclose()/ge; # close
+
 		# enclose function names
 		if ($gh->{'strip-parens'}) {
 			$l =~ s/(\w+)\(\)/$gh->_funcname($1)/ge;
@@ -616,6 +622,9 @@ sub _url { my ($gh, $url, $label) = @_; ''; }
 sub _strong { my ($gh, $str) = @_; $str; }
 sub _em { my ($gh, $str) = @_; $str; }
 sub _code { my ($gh, $str) = @_; $str; }
+sub _spanclass { my ($gh, $class, $str) = @_; $str; }
+sub _divclassopen { my ($gh, $class) = @_; ''; }
+sub _divclassclose { my ($gh) = @_; ''; }
 sub _funcname { my ($gh, $str) = @_; $str; }
 sub _varname { my ($gh, $str) = @_; $str; }
 sub _new_mode { my ($gh, $mode) = @_; }
@@ -788,6 +797,22 @@ sub _code
 	return "<code class = 'literal'>$str</code>";
 }
 
+sub _spanclass
+{
+	my ($gh, $class, $str) = @_;
+	return "<span class = \"$class\">$str</span>";
+}
+
+sub _divclassopen
+{
+	my ($gh, $class) = @_;
+	return "<div class = \"$class\">";
+}
+sub _divclassclose
+{
+	my ($gh) = @_;
+	return "</div>";
+}
 
 sub _funcname
 {
