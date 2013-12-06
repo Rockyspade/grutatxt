@@ -381,7 +381,7 @@ sub process
 		}
 
 		# preformatted text
-		elsif ($l =~ s/^(\s.*)$/$gh->_pre($1)/e) {
+		elsif ($l =~ s/^(\s.*\S)$/$gh->_pre($1)/e) {
 			if ($gh->{'-mode'} eq 'pre' &&
 				!$gh->{'no-pure-verbatim'}) {
 				# set line back to original
