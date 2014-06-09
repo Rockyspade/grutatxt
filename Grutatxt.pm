@@ -322,7 +322,7 @@ sub process
 		$l =~ s/`([^\']*)\'/$gh->_code($1)/ge;
 
 		# james: change :-class-text--: into span class
-		$l =~ s/:-([^-]+)-(.+)--:/$gh->_spanclass($1,$2)/ge;
+		$l =~ s/:-([^-]+)-(.+?)--:/$gh->_spanclass($1,$2)/ge;
 		# james: add :=class= text ==: 
 		$l =~ s/:=([^=]+)=/$gh->_divclassopen($1)/ge; # open
 		$l =~ s/==:/$gh->_divclassclose()/ge; # close
