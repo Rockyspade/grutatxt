@@ -59,6 +59,9 @@ $table_type = 'allbox';
 # abstract line number
 $abstract = 0;
 
+# marks
+@marks = ();
+
 # man page section
 $man_section = 1;
 
@@ -141,6 +144,7 @@ $grutatxt = new Grutatxt(
 		'table-type'	=> $table_type,
 		'title' 	=> \$content_title,
 		'abstract'	=> \$abstract,
+        'marks'     => \@marks,
 		'page-name'	=> $title,
 		'section'	=> $man_section,
 		'docclass'	=> $latex_docclass,
@@ -152,6 +156,18 @@ $grutatxt = new Grutatxt(
 		);
 
 @result = $grutatxt->process($content);
+
+if ($mode eq 'HTML') {
+    if (scalar(@marks) && @marks[0]) {
+        $abstract = $marks[0] - 1;
+    }
+
+    @result = (
+        @result[0 .. $abstract],
+        '<->',
+        @result[$abstract + 1 .. scalar(@result)]
+    );
+}
 
 $title = $content_title unless $title;
 $no_body = 1 unless $mode =~ /^html$/i;
